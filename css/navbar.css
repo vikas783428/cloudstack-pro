@@ -1,0 +1,258 @@
+/* ==========================
+   Premium Navbar
+========================== */
+
+
+.navbar{
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:100%;
+
+    z-index:1000;
+
+    padding:20px 5%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    transition:0.3s;
+
+}
+
+
+/* Logo */
+
+.logo{
+
+    font-size:24px;
+
+    font-weight:700;
+
+}
+
+
+
+/* Navbar after scroll */
+
+.navbar.scrolled{
+
+    background:rgba(255,255,255,0.85);
+
+    backdrop-filter:blur(15px);
+
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+
+    padding:12px 5%;
+
+}
+
+
+
+/* Navigation Links */
+
+.nav-links{
+
+    display:flex;
+
+    list-style:none;
+
+    gap:30px;
+
+    align-items:center;
+
+}
+
+
+
+.nav-links a{
+
+    text-decoration:none;
+
+    color:#111;
+
+    font-weight:500;
+
+    transition:.3s;
+
+}
+
+
+
+.nav-links a:hover{
+
+    color:#2563eb;
+
+}
+
+
+
+.nav-links a.active{
+
+    color:#2563eb;
+
+}
+
+
+
+/* Right Side Buttons */
+
+.nav-actions{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+
+
+/* Theme Button */
+
+.theme-btn{
+
+    border:none;
+
+    background:none;
+
+    font-size:22px;
+
+    cursor:pointer;
+
+}
+
+
+
+/* Hamburger Button */
+
+.menu-toggle{
+
+    display:none;
+
+    border:none;
+
+    background:none;
+
+    font-size:30px;
+
+    cursor:pointer;
+
+    color:#2563eb;
+
+}
+
+
+
+/* ==========================
+   Mobile Navbar
+========================== */
+
+
+@media(max-width:768px){
+
+
+.navbar{
+
+    position:fixed;
+    top:0;
+    left:0;
+
+    width:100%;
+
+    z-index:1000;
+
+    padding:20px 6%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+}
+
+
+
+/* Show hamburger */
+
+.menu-toggle{
+
+    display:block;
+
+}
+
+
+
+/* Hide Get Started */
+
+.nav-actions .btn-primary{
+
+    display:none;
+
+}
+
+
+
+/* Mobile menu */
+
+.nav-links{
+
+
+    position:absolute;
+
+
+    top:70px;
+
+
+    left:0;
+
+
+    width:100%;
+
+
+    background:white;
+
+
+    display:none;
+
+
+    flex-direction:column;
+
+
+    align-items:center;
+
+
+    gap:20px;
+
+
+    padding:30px 0;
+
+
+    box-shadow:0 10px 30px rgba(0,0,0,.1);
+
+
+}
+
+
+
+/* When clicked */
+
+.nav-links.active{
+
+
+    display:flex;
+
+
+}
+
+
+
+}

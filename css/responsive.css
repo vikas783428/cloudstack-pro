@@ -277,3 +277,21 @@ cursor:pointer;
 
 
 }
+@media(max-width:768px){
+
+.hero-image{
+
+    order:-1;
+
+    margin-bottom:30px;
+
+}
+
+
+.hero-image img{
+
+    max-width:320px;
+
+}
+
+}

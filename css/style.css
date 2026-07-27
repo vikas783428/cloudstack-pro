@@ -1189,3 +1189,16 @@ grid-template-columns:1fr;
 
 
 }
+.hero-image img{
+
+    width:100%;
+
+    max-width:500px;
+
+    height:auto;
+
+    display:block;
+
+    margin:auto;
+
+}

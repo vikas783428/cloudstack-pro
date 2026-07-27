@@ -1087,103 +1087,1097 @@ grid-template-columns:1fr;
     display:block;
 
 }
-/* =====================
-   Resources Section
-===================== */
+/* =========================
+   Resource Popup Animation
+========================= */
 
+/* =========================
+   Resource Popup Old Style
+========================= */
 
-.resources{
+.info-modal{
 
-padding:80px 5%;
+    display:none;
 
-text-align:center;
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,0.5);
+
+    justify-content:center;
+
+    align-items:center;
+
+    z-index:1000;
 
 }
 
 
+.modal-content{
+
+    background:white;
+    padding:30px;
+    width:90%;
+    max-width:500px;
+
+    border-radius:15px;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.2);
+
+    text-align:center;
+
+    position:relative;
+    animation:none;
+
+}
+/* =========================
+   Latest Resources Layout
+========================= */
+
+.resource-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    max-width: 1200px;
+    margin: 40px auto 0;
+}
+
+
+.resource-card {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    transition: 0.3s;
+}
+
+
+.resource-card:hover {
+    transform: translateY(-8px);
+}
+
+
+.resource-card span {
+    display: inline-block;
+    background: #2563eb;
+    color: white;
+    padding: 6px 15px;
+    border-radius: 20px;
+    font-size: 13px;
+    margin-bottom: 15px;
+}
+
+
+.resource-card h3 {
+    margin-bottom: 15px;
+}
+
+
+.resource-card p {
+    color:#64748b;
+    margin-bottom:20px;
+}
+
+
+.resource-card a {
+    color:#2563eb;
+    font-weight:600;
+}
+
+
+/* Tablet */
+
+@media(max-width:1024px){
 
 .resource-cards{
-
-display:grid;
-
-grid-template-columns:repeat(3,1fr);
-
-gap:30px;
-
-margin-top:40px;
+    grid-template-columns:repeat(2,1fr);
+}
 
 }
 
 
-
-.resource-card{
-
-background:white;
-
-padding:30px;
-
-border-radius:20px;
-
-text-align:left;
-
-box-shadow:0 10px 30px rgba(0,0,0,.08);
-
-transition:.3s;
-
-}
-
-
-
-.resource-card:hover{
-
-transform:translateY(-10px);
-
-}
-
-
-
-.resource-card span{
-
-background:#2563eb;
-
-color:white;
-
-padding:6px 15px;
-
-border-radius:20px;
-
-font-size:14px;
-
-}
-
-
-
-.resource-card h3{
-
-margin-top:20px;
-
-}
-
-
-
-.resource-card a{
-
-color:#2563eb;
-
-font-weight:600;
-
-text-decoration:none;
-
-}
-
-
+/* Mobile */
 
 @media(max-width:768px){
 
-
 .resource-cards{
+    grid-template-columns:1fr;
+}
 
-grid-template-columns:1fr;
+}
+/* =========================
+   CTA Button Animation
+========================= */
+
+.cta .btn-primary{
+
+    position:relative;
+
+    overflow:hidden;
+
+    animation:ctaPulse 2s infinite;
+
+}
+
+
+/* Hover Effect */
+
+.cta .btn-primary:hover{
+
+    transform:translateY(-5px) scale(1.05);
+
+    box-shadow:0 15px 30px rgba(0,0,0,0.25);
+
+}
+
+
+
+/* Shine Animation */
+
+.cta .btn-primary::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+
+    left:-100%;
+
+    width:100%;
+
+    height:100%;
+
+    background:rgba(255,255,255,0.25);
+
+    transform:skewX(-30deg);
+
+    transition:.5s;
+
+}
+
+
+.cta .btn-primary:hover::before{
+
+    left:100%;
+
+}
+
+
+
+/* Pulse */
+
+@keyframes ctaPulse{
+
+    0%{
+
+        box-shadow:0 0 0 0 rgba(255,255,255,.5);
+
+    }
+
+
+    70%{
+
+        box-shadow:0 0 0 15px rgba(255,255,255,0);
+
+    }
+
+
+    100%{
+
+        box-shadow:0 0 0 0 rgba(255,255,255,0);
+
+    }
+
+}
+/* =========================
+   Global Button Animation
+   CloudStack Pro
+========================= */
+
+
+.btn-primary,
+.btn-secondary,
+.contact-form button,
+.price-card button,
+.cta a {
+
+
+    position:relative;
+
+    overflow:hidden;
+
+    transition:0.35s ease;
+
+    animation:buttonPulse 2.5s infinite;
+
+}
+
+
+
+/* Hover Effect */
+
+.btn-primary:hover,
+.btn-secondary:hover,
+.contact-form button:hover,
+.price-card button:hover,
+.cta a:hover {
+
+
+    transform:translateY(-5px) scale(1.05);
+
+    box-shadow:
+    0 15px 35px rgba(37,99,235,0.35);
+
+}
+
+
+
+/* Shine Effect */
+
+.btn-primary::before,
+.btn-secondary::before,
+.contact-form button::before,
+.price-card button::before,
+.cta a::before {
+
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+
+    left:-120%;
+
+    width:100%;
+
+    height:100%;
+
+
+    background:
+    linear-gradient(
+    120deg,
+    transparent,
+    rgba(255,255,255,0.5),
+    transparent
+    );
+
+
+    transition:0.6s;
+
+}
+
+
+
+/* Shine Move */
+
+.btn-primary:hover::before,
+.btn-secondary:hover::before,
+.contact-form button:hover::before,
+.price-card button:hover::before,
+.cta a:hover::before {
+
+
+    left:120%;
+
+}
+
+
+
+/* Pulse Animation */
+
+@keyframes buttonPulse{
+
+
+    0%{
+
+        box-shadow:
+        0 0 0 0 rgba(37,99,235,0.4);
+
+    }
+
+
+    70%{
+
+        box-shadow:
+        0 0 0 12px rgba(37,99,235,0);
+
+    }
+
+
+    100%{
+
+        box-shadow:
+        0 0 0 0 rgba(37,99,235,0);
+
+    }
+
+}
+/* ==========================
+   Navbar Link Animation
+========================== */
+
+.nav-links a{
+
+    position:relative;
+
+    transition:.3s ease;
+
+}
+
+
+/* Hover Lift */
+
+.nav-links a:hover{
+
+    color:#2563eb;
+
+    transform:translateY(-3px);
+
+}
+
+
+/* Underline Animation */
+
+.nav-links a::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+
+    bottom:-8px;
+
+    width:0%;
+
+    height:3px;
+
+    background:#2563eb;
+
+    border-radius:10px;
+
+    transition:.35s ease;
+
+}
+
+
+.nav-links a:hover::after{
+
+    width:100%;
+
+}
+.nav-links a:hover{
+
+    text-shadow:0 5px 15px rgba(37,99,235,.35);
+
+}
+/* ==========================
+   Service & Feature Card Animation
+========================== */
+
+
+/* Card Initial */
+
+.card,
+.features li {
+
+    position:relative;
+
+    overflow:hidden;
+
+    transition:
+    transform .35s ease,
+    box-shadow .35s ease;
+
+}
+
+
+
+/* Hover Lift */
+
+.card:hover,
+.features li:hover {
+
+    transform:translateY(-12px) scale(1.03);
+
+    box-shadow:
+    0 20px 40px rgba(37,99,235,.18);
+
+}
+
+
+
+/* Shine Effect */
+
+.card::before,
+.features li::before {
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+
+    left:-120%;
+
+    width:100%;
+
+    height:100%;
+
+
+    background:
+    linear-gradient(
+    120deg,
+    transparent,
+    rgba(255,255,255,.45),
+    transparent
+    );
+
+
+    transition:.6s;
+
+}
+
+
+
+.card:hover::before,
+.features li:hover::before {
+
+    left:120%;
+
+}
+
+
+
+/* Heading Animation */
+
+.card h3,
+.features li {
+
+    transition:.3s ease;
+
+}
+
+
+.card:hover h3 {
+
+    color:#2563eb;
+
+}
+
+
+
+/* Floating Animation */
+
+.services .card:nth-child(1),
+.services .card:nth-child(2),
+.services .card:nth-child(3){
+
+    animation:cardFloat 4s ease-in-out infinite;
+
+}
+
+
+
+.services .card:nth-child(2){
+
+    animation-delay:.5s;
+
+}
+
+
+.services .card:nth-child(3){
+
+    animation-delay:1s;
+
+}
+
+
+
+@keyframes cardFloat{
+
+
+0%,100%{
+
+    transform:translateY(0);
+
+}
+
+
+50%{
+
+    transform:translateY(-8px);
+
+}
+
+
+}
+/* ==========================
+   Trusted Companies Animation
+========================== */
+
+
+.client-logos span{
+
+    position:relative;
+
+    overflow:hidden;
+
+    background:white;
+
+    padding:25px;
+
+    border-radius:15px;
+
+    font-size:22px;
+
+    font-weight:700;
+
+    color:#2563eb;
+
+    box-shadow:
+    0 10px 25px rgba(0,0,0,.08);
+
+    transition:.4s ease;
+
+    cursor:pointer;
+
+}
+
+
+
+/* Floating Animation */
+
+.client-logos span:nth-child(1){
+
+animation:companyFloat 4s infinite;
+
+}
+
+
+.client-logos span:nth-child(2){
+
+animation:companyFloat 4s infinite .4s;
+
+}
+
+
+.client-logos span:nth-child(3){
+
+animation:companyFloat 4s infinite .8s;
+
+}
+
+
+.client-logos span:nth-child(4){
+
+animation:companyFloat 4s infinite 1.2s;
+
+}
+
+
+.client-logos span:nth-child(5){
+
+animation:companyFloat 4s infinite 1.6s;
+
+}
+
+
+
+/* Hover Effect */
+
+.client-logos span:hover{
+
+
+transform:
+translateY(-12px)
+scale(1.08);
+
+
+color:white;
+
+background:#2563eb;
+
+
+box-shadow:
+
+0 20px 40px rgba(37,99,235,.35);
+
+
+}
+
+
+
+/* Shine Effect */
+
+
+.client-logos span::before{
+
+
+content:"";
+
+position:absolute;
+
+top:0;
+
+left:-120%;
+
+width:80%;
+
+height:100%;
+
+
+background:
+
+linear-gradient(
+120deg,
+transparent,
+rgba(255,255,255,.7),
+transparent
+);
+
+
+transition:.6s;
+
+
+}
+
+
+
+.client-logos span:hover::before{
+
+
+left:130%;
+
+
+}
+
+
+
+/* Floating Keyframe */
+
+
+@keyframes companyFloat{
+
+
+0%,100%{
+
+transform:translateY(0);
+
+}
+
+
+50%{
+
+transform:translateY(-8px);
+
+}
+
+
+}
+/* ==========================
+   FAQ Premium Animation
+========================== */
+
+
+/* FAQ Card */
+
+.faq-item{
+
+    position:relative;
+
+    transition:.35s ease;
+
+}
+
+
+/* Hover Effect */
+
+.faq-item:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:
+    0 15px 35px rgba(37,99,235,.15);
+
+}
+
+
+
+/* Question Button */
+
+.faq-question{
+
+    position:relative;
+
+    transition:.3s ease;
+
+}
+
+
+
+/* Hover Question */
+
+.faq-question:hover{
+
+    color:#2563eb;
+
+}
+
+
+
+/* Plus Icon Animation */
+
+.faq-question span{
+
+    font-size:25px;
+
+    color:#2563eb;
+
+    transition:.35s ease;
+
+}
+
+
+
+/* Rotate plus when active */
+
+.faq-item.active .faq-question span{
+
+    transform:rotate(45deg);
+
+    color:#ef4444;
+
+}
+
+
+
+/* Answer Animation */
+
+
+.faq-answer{
+
+    display:block;
+
+    max-height:0;
+
+    overflow:hidden;
+
+    opacity:0;
+
+    transition:
+
+    max-height .5s ease,
+
+    opacity .4s ease;
+
+}
+
+
+
+/* Open Answer */
+
+
+.faq-item.active .faq-answer{
+
+    max-height:200px;
+
+    opacity:1;
+
+}
+
+
+
+/* Question Active Style */
+
+
+.faq-item.active .faq-question{
+
+    background:#eff6ff;
+
+    color:#2563eb;
+
+}
+
+
+
+/* FAQ Entrance Animation */
+
+
+.faq-item{
+
+    animation:faqSlide .8s ease forwards;
+
+    opacity:0;
+
+}
+
+
+.faq-item:nth-child(1){
+
+    animation-delay:.2s;
+
+}
+
+
+.faq-item:nth-child(2){
+
+    animation-delay:.4s;
+
+}
+
+
+.faq-item:nth-child(3){
+
+    animation-delay:.6s;
+
+}
+
+
+.faq-item:nth-child(4){
+
+    animation-delay:.8s;
+
+}
+
+
+
+@keyframes faqSlide{
+
+
+from{
+
+    opacity:0;
+
+    transform:translateY(30px);
+
+}
+
+
+to{
+
+    opacity:1;
+
+    transform:translateY(0);
+
+}
+
+
+}
+/* ==========================
+   Innovative Companies Logo Animation
+========================== */
+
+
+.company-logos div{
+
+    position:relative;
+
+    background:white;
+
+    padding:30px;
+
+    border-radius:18px;
+
+    font-size:24px;
+
+    font-weight:700;
+
+    box-shadow:
+    0 10px 25px rgba(0,0,0,.08);
+
+    cursor:pointer;
+
+    overflow:hidden;
+
+    transition:.4s ease;
+
+    animation:logoFloat 4s infinite;
+
+}
+
+
+
+/* Individual Logo Animation Delay */
+
+.company-logos div:nth-child(1){
+
+    animation-delay:.2s;
+
+}
+
+.company-logos div:nth-child(2){
+
+    animation-delay:.4s;
+
+}
+
+
+.company-logos div:nth-child(3){
+
+    animation-delay:.6s;
+
+}
+
+
+.company-logos div:nth-child(4){
+
+    animation-delay:.8s;
+
+}
+
+
+.company-logos div:nth-child(5){
+
+    animation-delay:1s;
+
+}
+
+
+
+/* Hover Lift */
+
+
+.company-logos div:hover{
+
+
+transform:
+
+translateY(-12px)
+scale(1.08);
+
+
+box-shadow:
+
+0 20px 40px rgba(0,0,0,.18);
+
+
+}
+
+
+
+/* Brand Colors */
+
+
+/* Google */
+
+.company-logos div:nth-child(1):hover{
+
+color:#4285F4;
+
+}
+
+
+/* Microsoft */
+
+.company-logos div:nth-child(2):hover{
+
+color:#f25022;
+
+}
+
+
+
+/* Amazon */
+
+.company-logos div:nth-child(3):hover{
+
+color:#ff9900;
+
+}
+
+
+
+/* Oracle */
+
+.company-logos div:nth-child(4):hover{
+
+color:#f80000;
+
+}
+
+
+
+/* Netflix */
+
+.company-logos div:nth-child(5):hover{
+
+color:#e50914;
+
+}
+
+
+
+/* Shine Effect */
+
+
+.company-logos div::before{
+
+
+content:"";
+
+position:absolute;
+
+top:0;
+
+left:-120%;
+
+width:100%;
+
+height:100%;
+
+
+background:
+
+linear-gradient(
+
+120deg,
+
+transparent,
+
+rgba(255,255,255,.8),
+
+transparent
+
+);
+
+
+transition:.6s;
+
+
+}
+
+
+
+.company-logos div:hover::before{
+
+
+left:120%;
+
+
+}
+
+
+
+/* Floating Animation */
+
+
+@keyframes logoFloat{
+
+
+0%,100%{
+
+transform:translateY(0);
+
+}
+
+
+50%{
+
+transform:translateY(-8px);
 
 }
 

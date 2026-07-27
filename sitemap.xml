@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
-    <loc>https://cloudstack-pro.vercel.app/</loc>
+<loc>https://yourdomain.com/</loc>
 </url>
 
 <url>
-    <loc>https://cloudstack-pro.vercel.app/products.html</loc>
+<loc>https://yourdomain.com/products.html</loc>
 </url>
 
 <url>
-    <loc>https://cloudstack-pro.vercel.app/pricing.html</loc>
+<loc>https://yourdomain.com/pricing.html</loc>
 </url>
 
 <url>
-    <loc>https://cloudstack-pro.vercel.app/contact.html</loc>
+<loc>https://yourdomain.com/contact.html</loc>
 </url>
 
 </urlset>

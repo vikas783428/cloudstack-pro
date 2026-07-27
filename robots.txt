@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://cloudstack-pro.vercel.app/sitemap.xml
+Sitemap: https://yourdomain.com/sitemap.xml

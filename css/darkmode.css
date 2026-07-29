@@ -493,3 +493,114 @@ body.dark .nav-links a[aria-current="page"] {
         0 4px 12px rgba(37, 99, 235, 0.35);
 
 }
+/* ==================================
+   DARK MODE – CONTACT HERO
+================================== */
+
+body.dark .contact-hero {
+
+    background:
+    #0b1220;
+
+}
+
+
+body.dark .contact-left h1 {
+
+    color:
+    #f8fafc;
+
+}
+
+
+body.dark .contact-left h1 span {
+
+    color:
+    #60a5fa;
+
+}
+
+
+body.dark .contact-description {
+
+    color:
+    #cbd5e1;
+
+}
+
+
+body.dark .modern-contact-form {
+
+    background:
+    #161f2e;
+
+    border-color:
+    #293548;
+
+    box-shadow:
+    0 25px 70px
+    rgba(
+    0,
+    0,
+    0,
+    0.40
+    );
+
+}
+
+
+body.dark .contact-field label {
+
+    color:
+    #f1f5f9;
+
+}
+
+
+body.dark .contact-field input,
+
+body.dark .contact-field textarea {
+
+    background:
+    #0f172a;
+
+    color:
+    #f8fafc;
+
+    border-color:
+    #334155;
+
+}
+
+
+body.dark .phone-input {
+
+    background:
+    #0f172a;
+
+    border-color:
+    #334155;
+
+}
+
+
+body.dark .phone-input span {
+
+    border-color:
+    #334155;
+
+}
+
+
+body.dark .contact-action {
+
+    background:
+    #161f2e;
+
+    color:
+    #f8fafc;
+
+    border-color:
+    #334155;
+
+}

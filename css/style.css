@@ -2186,3 +2186,695 @@ transform:translateY(-8px);
 body {
     padding-top: 95px;
 }
+/* ==================================
+   MODERN CONTACT HERO
+================================== */
+
+.contact-hero {
+
+    min-height: 100vh;
+
+    padding:
+    150px 6%
+    100px;
+
+    background:
+    #f4f7fb;
+
+    display: flex;
+
+    align-items: center;
+
+}
+
+
+.contact-hero-content {
+
+    width: 100%;
+
+    max-width: 1250px;
+
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns:
+    1.05fr
+    0.95fr;
+
+    gap: 90px;
+
+    align-items: center;
+
+}
+
+
+/* ==================================
+   LEFT CONTENT
+================================== */
+
+.contact-tag {
+
+    color: #2563eb;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 25px;
+
+}
+
+
+.contact-left h1 {
+
+    color: #0f172a;
+
+    font-size:
+    clamp(
+    48px,
+    6vw,
+    90px
+    );
+
+    line-height: 0.98;
+
+    font-weight: 800;
+
+    letter-spacing: -3px;
+
+    margin-bottom: 30px;
+
+}
+
+
+.contact-left h1 span {
+
+    display: block;
+
+    color: #2563eb;
+
+    transition:
+    color 0.3s,
+    transform 0.3s;
+
+}
+
+
+.contact-left h1 span:hover {
+
+    color: #1d4ed8;
+
+    transform:
+    translateX(12px);
+
+}
+
+
+.contact-description {
+
+    max-width: 620px;
+
+    color: #64748b;
+
+    font-size: 18px;
+
+    line-height: 1.8;
+
+}
+
+
+/* ==================================
+   CONTACT FORM
+================================== */
+
+.modern-contact-form {
+
+    background: white;
+
+    padding: 42px;
+
+    border-radius: 24px;
+
+    border:
+    1px solid
+    #e2e8f0;
+
+    box-shadow:
+    0 25px 70px
+    rgba(
+    15,
+    23,
+    42,
+    0.12
+    );
+
+}
+
+
+.contact-input-row {
+
+    display: grid;
+
+    grid-template-columns:
+    1fr 1fr;
+
+    gap: 18px;
+
+}
+
+
+.contact-field {
+
+    margin-bottom: 22px;
+
+}
+
+
+.contact-field label {
+
+    display: block;
+
+    color: #0f172a;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    margin-bottom: 9px;
+
+}
+
+
+.contact-field input,
+
+.contact-field textarea {
+
+    width: 100%;
+
+    background: #f8fafc;
+
+    color: #0f172a;
+
+    border:
+    1px solid
+    #dbe3ee;
+
+    border-radius: 12px;
+
+    padding:
+    15px 17px;
+
+    font-family:
+    "Poppins",
+    sans-serif;
+
+    font-size: 15px;
+
+    outline: none;
+
+    transition: 0.3s;
+
+}
+
+
+.contact-field textarea {
+
+    resize: vertical;
+
+    min-height: 130px;
+
+}
+
+
+.contact-field input:focus,
+
+.contact-field textarea:focus {
+
+    background: white;
+
+    border-color:
+    #2563eb;
+
+    box-shadow:
+    0 0 0 4px
+    rgba(
+    37,
+    99,
+    235,
+    0.10
+    );
+
+}
+
+
+/* ==================================
+   PHONE INPUT
+================================== */
+
+.phone-input {
+
+    display: flex;
+
+    align-items: center;
+
+    background: #f8fafc;
+
+    border:
+    1px solid
+    #dbe3ee;
+
+    border-radius: 12px;
+
+    overflow: hidden;
+
+    transition: 0.3s;
+
+}
+
+
+.phone-input:focus-within {
+
+    background: white;
+
+    border-color:
+    #2563eb;
+
+    box-shadow:
+    0 0 0 4px
+    rgba(
+    37,
+    99,
+    235,
+    0.10
+    );
+
+}
+
+
+.phone-input span {
+
+    padding:
+    15px 16px;
+
+    color: #2563eb;
+
+    font-weight: 700;
+
+    border-right:
+    1px solid
+    #dbe3ee;
+
+}
+
+
+.phone-input input {
+
+    border: none;
+
+    box-shadow: none;
+
+    background: transparent;
+
+}
+
+
+.phone-input input:focus {
+
+    box-shadow: none;
+
+}
+
+
+/* ==================================
+   SUBMIT BUTTON
+================================== */
+
+.contact-submit {
+
+    width: 100%;
+
+    border: none;
+
+    border-radius: 13px;
+
+    padding:
+    17px 24px;
+
+    background:
+    #2563eb;
+
+    color: white;
+
+    font-family:
+    "Poppins",
+    sans-serif;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 12px;
+
+    transition: 0.3s;
+
+}
+
+
+.contact-submit span {
+
+    font-size: 22px;
+
+    transition: 0.3s;
+
+}
+
+
+.contact-submit:hover {
+
+    background:
+    #1d4ed8;
+
+    transform:
+    translateY(-4px);
+
+    box-shadow:
+    0 14px 30px
+    rgba(
+    37,
+    99,
+    235,
+    0.30
+    );
+
+}
+
+
+.contact-submit:hover span {
+
+    transform:
+    translateX(6px);
+
+}
+
+
+/* ==================================
+   EMAIL AND LIVE CHAT
+================================== */
+
+.contact-actions {
+
+    display: grid;
+
+    grid-template-columns:
+    1fr 1fr;
+
+    gap: 15px;
+
+    margin-top: 20px;
+
+}
+
+
+.contact-action {
+
+    min-height: 64px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 10px;
+
+    color: #0f172a;
+
+    background: white;
+
+    border:
+    1px solid
+    #dbe3ee;
+
+    border-radius: 13px;
+
+    font-weight: 700;
+
+    transition: 0.3s;
+
+}
+
+
+.contact-action:hover {
+
+    color: white;
+
+    background:
+    #2563eb;
+
+    border-color:
+    #2563eb;
+
+    transform:
+    translateY(-4px);
+
+    box-shadow:
+    0 12px 25px
+    rgba(
+    37,
+    99,
+    235,
+    0.20
+    );
+
+}
+
+
+.contact-action-icon {
+
+    font-size: 20px;
+
+}
+
+
+.contact-success {
+
+    text-align: center;
+
+    margin-top: 15px;
+
+    color: #16a34a;
+
+    font-weight: 600;
+
+}
+
+
+/* ==================================
+   MOBILE
+================================== */
+
+@media
+(max-width: 900px) {
+
+    .contact-hero {
+
+        padding:
+        125px 6%
+        70px;
+
+    }
+
+
+    .contact-hero-content {
+
+        grid-template-columns:
+        1fr;
+
+        gap: 50px;
+
+    }
+
+
+    .contact-left {
+
+        text-align: center;
+
+    }
+
+
+    .contact-description {
+
+        margin:
+        auto;
+
+    }
+
+}
+
+
+@media
+(max-width: 600px) {
+
+    .contact-left h1 {
+
+        font-size: 48px;
+
+        letter-spacing:
+        -2px;
+
+    }
+
+
+    .modern-contact-form {
+
+        padding:
+        25px 18px;
+
+        border-radius:
+        18px;
+
+    }
+
+
+    .contact-input-row {
+
+        grid-template-columns:
+        1fr;
+
+        gap: 0;
+
+    }
+
+
+    .contact-actions {
+
+        grid-template-columns:
+        1fr;
+
+    }
+
+}
+/* ==================================
+   Product Selection Animation
+================================== */
+
+.contact-field select {
+  width: 100%;
+  padding: 15px 45px 15px 16px;
+
+  border: 2px solid transparent;
+  border-radius: 12px;
+
+  background-color: #ffffff;
+
+  color: #1e293b;
+
+  font-size: 15px;
+  font-family: "Poppins", sans-serif;
+
+  cursor: pointer;
+
+  outline: none;
+
+  box-shadow:
+    0 5px 18px rgba(15, 23, 42, 0.08);
+
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
+
+  appearance: auto;
+}
+
+
+/* Hover animation */
+
+.contact-field select:hover {
+  border-color: #60a5fa;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 10px 25px rgba(37, 99, 235, 0.15);
+}
+
+
+/* Click / focus animation */
+
+.contact-field select:focus {
+  border-color: #2563eb;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 0 0 4px rgba(37, 99, 235, 0.12),
+    0 12px 28px rgba(37, 99, 235, 0.18);
+}
+
+
+/* Selected product animation */
+
+.contact-field select.product-selected {
+  animation: productSelected 0.45s ease;
+
+  border-color: #2563eb;
+
+  background-color: #eff6ff;
+}
+
+
+@keyframes productSelected {
+
+  0% {
+    transform: scale(1);
+  }
+
+  45% {
+    transform: scale(1.025);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+
+}
+/* ==================================
+   Custom Requirement Animation
+================================== */
+
+.custom-requirement-show {
+  animation:
+    customRequirementOpen
+    0.45s ease;
+}
+
+
+@keyframes customRequirementOpen {
+
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(-12px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0);
+  }
+
+}

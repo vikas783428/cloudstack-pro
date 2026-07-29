@@ -1,30 +1,24 @@
-document.addEventListener("DOMContentLoaded",()=>{
+document.addEventListener("DOMContentLoaded", () => {
 
+    const menuToggle = document.getElementById("menu-toggle");
 
-const menuToggle = document.getElementById("menu-toggle");
+    const navLinks = document.querySelector(".nav-links");
 
-const navLinks = document.querySelector(".nav-links");
+    if (menuToggle && navLinks) {
 
+        menuToggle.addEventListener("click", () => {
 
-console.log("Navbar JS Loaded");
+            const isOpen = navLinks.classList.toggle("active");
 
+            menuToggle.setAttribute(
+                "aria-expanded",
+                isOpen
+            );
 
-if(menuToggle && navLinks){
+            menuToggle.textContent = isOpen ? "✕" : "☰";
 
+        });
 
-menuToggle.addEventListener("click",()=>{
-
-
-console.log("Menu clicked");
-
-
-navLinks.classList.toggle("active");
-
-
-});
-
-
-}
-
+    }
 
 });

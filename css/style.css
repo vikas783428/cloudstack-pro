@@ -2878,3 +2878,820 @@ body {
   }
 
 }
+/* =========================================
+   PREMIUM HERO – DESKTOP & TABLET UPGRADE
+========================================= */
+
+.hero {
+    position: relative;
+
+    min-height: 760px;
+
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+
+    align-items: center;
+
+    gap: 70px;
+
+    padding:
+        150px
+        max(5vw, 40px)
+        100px;
+
+    overflow: hidden;
+
+    isolation: isolate;
+
+    background:
+        radial-gradient(
+            circle at 12% 20%,
+            rgba(59, 130, 246, 0.14),
+            transparent 34%
+        ),
+        radial-gradient(
+            circle at 88% 28%,
+            rgba(99, 102, 241, 0.15),
+            transparent 35%
+        ),
+        linear-gradient(
+            135deg,
+            #f8fbff 0%,
+            #f5f8ff 48%,
+            #eef4ff 100%
+        );
+}
+
+
+/* Decorative background glow */
+
+.hero::before {
+    content: "";
+
+    position: absolute;
+
+    width: 520px;
+    height: 520px;
+
+    top: -230px;
+    right: -130px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(37, 99, 235, 0.18),
+            rgba(99, 102, 241, 0.06) 48%,
+            transparent 72%
+        );
+
+    filter: blur(10px);
+
+    pointer-events: none;
+
+    z-index: -1;
+
+    animation: heroGlowMove 9s ease-in-out infinite;
+}
+
+
+.hero::after {
+    content: "";
+
+    position: absolute;
+
+    width: 380px;
+    height: 380px;
+
+    left: -180px;
+    bottom: -200px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(14, 165, 233, 0.12),
+            transparent 70%
+        );
+
+    pointer-events: none;
+
+    z-index: -1;
+}
+
+
+/* =========================================
+   HERO CONTENT
+========================================= */
+
+.hero-content {
+    position: relative;
+
+    z-index: 2;
+
+    max-width: 650px;
+}
+
+
+.hero-badge {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    margin-bottom: 24px;
+
+    padding: 9px 15px;
+
+    border:
+        1px solid
+        rgba(37, 99, 235, 0.16);
+
+    border-radius: 999px;
+
+    background:
+        rgba(255, 255, 255, 0.72);
+
+    color: #2563eb;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.1px;
+
+    box-shadow:
+        0 8px 25px
+        rgba(37, 99, 235, 0.08);
+
+    backdrop-filter: blur(12px);
+
+    -webkit-backdrop-filter: blur(12px);
+}
+
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #22c55e;
+
+    box-shadow:
+        0 0 0 5px
+        rgba(34, 197, 94, 0.13);
+
+    animation: statusPulse 2s ease-in-out infinite;
+}
+
+
+/* =========================================
+   HEADING
+========================================= */
+
+.hero h1 {
+    max-width: 650px;
+
+    margin:
+        0
+        0
+        24px;
+
+    color: #0f172a;
+
+    font-size:
+        clamp(
+            52px,
+            5.2vw,
+            76px
+        );
+
+    font-weight: 800;
+
+    line-height: 1.04;
+
+    letter-spacing: -3px;
+}
+
+
+.hero h1 span {
+    display: block;
+
+    background:
+        linear-gradient(
+            100deg,
+            #2563eb,
+            #4f46e5,
+            #7c3aed
+        );
+
+    -webkit-background-clip: text;
+
+    background-clip: text;
+
+    -webkit-text-fill-color: transparent;
+}
+
+
+/* =========================================
+   DESCRIPTION
+========================================= */
+
+.hero p {
+    max-width: 610px;
+
+    margin: 0;
+
+    color: #64748b;
+
+    font-size: 18px;
+
+    line-height: 1.75;
+}
+
+
+/* =========================================
+   HERO BUTTONS
+========================================= */
+
+.hero-buttons {
+    display: flex;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 14px;
+
+    margin-top: 34px;
+}
+
+
+.hero-buttons a {
+    min-height: 54px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    padding:
+        14px
+        23px;
+
+    border-radius: 15px;
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+    text-decoration: none;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease;
+}
+
+
+.hero-buttons .btn-primary {
+    color: #ffffff;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #4f46e5
+        );
+
+    box-shadow:
+        0 14px 30px
+        rgba(37, 99, 235, 0.28);
+}
+
+
+.hero-buttons .btn-primary:hover {
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 19px 38px
+        rgba(37, 99, 235, 0.35);
+}
+
+
+.hero-buttons .btn-primary span {
+    font-size: 20px;
+
+    line-height: 1;
+
+    transition:
+        transform 0.25s ease;
+}
+
+
+.hero-buttons .btn-primary:hover span {
+    transform:
+        translateX(4px);
+}
+
+
+.hero-buttons .btn-secondary {
+    color: #1e3a8a;
+
+    background:
+        rgba(255, 255, 255, 0.78);
+
+    border:
+        1px solid
+        rgba(37, 99, 235, 0.18);
+
+    box-shadow:
+        0 10px 25px
+        rgba(15, 23, 42, 0.06);
+
+    backdrop-filter: blur(10px);
+}
+
+
+.hero-buttons .btn-secondary:hover {
+    transform:
+        translateY(-3px);
+
+    background: #ffffff;
+
+    box-shadow:
+        0 16px 32px
+        rgba(37, 99, 235, 0.13);
+}
+
+
+/* =========================================
+   TRUST METRICS
+========================================= */
+
+.hero-proof {
+    display: flex;
+
+    align-items: center;
+
+    gap: 22px;
+
+    margin-top: 42px;
+}
+
+
+.proof-item {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 4px;
+}
+
+
+.proof-item strong {
+    color: #0f172a;
+
+    font-size: 21px;
+
+    font-weight: 800;
+}
+
+
+.proof-item span {
+    color: #64748b;
+
+    font-size: 12px;
+
+    font-weight: 600;
+}
+
+
+.proof-divider {
+    width: 1px;
+
+    height: 38px;
+
+    background:
+        rgba(148, 163, 184, 0.35);
+}
+
+
+/* =========================================
+   HERO IMAGE
+========================================= */
+
+.hero-image {
+    position: relative;
+
+    z-index: 2;
+
+    width: 100%;
+
+    min-width: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+
+.hero-image img {
+    position: relative;
+
+    z-index: 3;
+
+    display: block;
+
+    width: 100%;
+
+    max-width: 690px;
+
+    height: auto;
+
+    filter:
+        drop-shadow(
+            0 30px 45px
+            rgba(15, 23, 42, 0.17)
+        );
+
+    animation:
+        heroImageFloat
+        6s
+        ease-in-out
+        infinite;
+}
+
+
+/* Glow behind image */
+
+.hero-image-glow {
+    position: absolute;
+
+    z-index: 1;
+
+    width: 75%;
+
+    aspect-ratio: 1;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(59, 130, 246, 0.25),
+            rgba(99, 102, 241, 0.09) 46%,
+            transparent 70%
+        );
+
+    filter: blur(12px);
+
+    animation:
+        imageGlowPulse
+        5s
+        ease-in-out
+        infinite;
+}
+
+
+/* =========================================
+   ORBITS
+========================================= */
+
+.hero-orbit {
+    position: absolute;
+
+    z-index: 1;
+
+    border:
+        1px solid
+        rgba(37, 99, 235, 0.13);
+
+    border-radius: 50%;
+
+    pointer-events: none;
+}
+
+
+.orbit-one {
+    width: 84%;
+
+    aspect-ratio: 1;
+
+    animation:
+        orbitRotate
+        18s
+        linear
+        infinite;
+}
+
+
+.orbit-two {
+    width: 102%;
+
+    aspect-ratio: 1;
+
+    border-style: dashed;
+
+    animation:
+        orbitRotate
+        26s
+        linear
+        infinite
+        reverse;
+}
+
+
+/* =========================================
+   FLOATING CARDS
+========================================= */
+
+.floating-card {
+    position: absolute;
+
+    z-index: 5;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    min-width: 205px;
+
+    padding:
+        13px
+        16px;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.8);
+
+    border-radius: 17px;
+
+    background:
+        rgba(255, 255, 255, 0.83);
+
+    box-shadow:
+        0 20px 45px
+        rgba(15, 23, 42, 0.14);
+
+    backdrop-filter: blur(16px);
+
+    -webkit-backdrop-filter: blur(16px);
+
+    animation:
+        floatingCard
+        5s
+        ease-in-out
+        infinite;
+}
+
+
+.floating-card-one {
+    top: 13%;
+
+    left: -4%;
+}
+
+
+.floating-card-two {
+    right: -3%;
+
+    bottom: 13%;
+
+    animation-delay: -2.5s;
+}
+
+
+.floating-icon {
+    width: 38px;
+
+    height: 38px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 12px;
+
+    color: #2563eb;
+
+    background:
+        #dbeafe;
+
+    font-size: 17px;
+
+    font-weight: 800;
+}
+
+
+.floating-card strong {
+    display: block;
+
+    color: #0f172a;
+
+    font-size: 13px;
+}
+
+
+.floating-card small {
+    display: block;
+
+    margin-top: 3px;
+
+    color: #64748b;
+
+    font-size: 11px;
+}
+
+
+/* =========================================
+   ANIMATIONS
+========================================= */
+
+@keyframes heroImageFloat {
+
+    0%,
+    100% {
+        transform:
+            translateY(0);
+    }
+
+    50% {
+        transform:
+            translateY(-12px);
+    }
+
+}
+
+
+@keyframes floatingCard {
+
+    0%,
+    100% {
+        transform:
+            translateY(0);
+    }
+
+    50% {
+        transform:
+            translateY(-10px);
+    }
+
+}
+
+
+@keyframes heroGlowMove {
+
+    0%,
+    100% {
+        transform:
+            translate(
+                0,
+                0
+            );
+    }
+
+    50% {
+        transform:
+            translate(
+                -30px,
+                25px
+            );
+    }
+
+}
+
+
+@keyframes imageGlowPulse {
+
+    0%,
+    100% {
+        opacity: 0.65;
+
+        transform:
+            scale(0.94);
+    }
+
+    50% {
+        opacity: 1;
+
+        transform:
+            scale(1.08);
+    }
+
+}
+
+
+@keyframes orbitRotate {
+
+    from {
+        transform:
+            rotate(0deg);
+    }
+
+    to {
+        transform:
+            rotate(360deg);
+    }
+
+}
+
+
+@keyframes statusPulse {
+
+    0%,
+    100% {
+        box-shadow:
+            0 0 0 4px
+            rgba(34, 197, 94, 0.12);
+    }
+
+    50% {
+        box-shadow:
+            0 0 0 8px
+            rgba(34, 197, 94, 0);
+    }
+
+}
+
+
+/* =========================================
+   TABLET ADJUSTMENTS
+========================================= */
+
+@media (max-width: 1100px) {
+
+    .hero {
+        gap: 35px;
+
+        padding-left: 35px;
+
+        padding-right: 35px;
+    }
+
+
+    .hero h1 {
+        font-size:
+            clamp(
+                48px,
+                5.4vw,
+                64px
+            );
+    }
+
+
+    .floating-card {
+        min-width: 180px;
+
+        padding:
+            11px
+            13px;
+    }
+
+
+    .floating-card-one {
+        left: -7%;
+    }
+
+
+    .floating-card-two {
+        right: -6%;
+    }
+
+}
+
+
+/* =========================================
+   ACCESSIBILITY
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .hero::before,
+    .hero-image img,
+    .hero-image-glow,
+    .hero-orbit,
+    .floating-card,
+    .status-dot {
+        animation: none;
+    }
+
+}

@@ -1,166 +1,94 @@
-/* Fade In */
-
+/* =====================
+   Fade In & Hover Effects
+===================== */
 .hero,
 .clients,
 .services,
 .features,
 .testimonials,
-.cta{
-
-    animation:fadeUp 1s ease;
+.cta {
+  animation: fadeUp 1s ease;
 }
 
-.card{
-    transition:.4s;
+.card {
+  transition: 0.4s;
 }
 
-.card:hover{
-
-    transform:translateY(-10px);
+.card:hover {
+  transform: translateY(-10px);
 }
 
-@keyframes fadeUp{
-
-from{
-
-opacity:0;
-
-transform:translateY(30px);
-
-}
-
-to{
-
-opacity:1;
-
-transform:translateY(0);
-
-}
-
-}
-@keyframes float{
-
-0%{
-    transform:translateY(0);
-}
-
-50%{
-    transform:translateY(-15px);
-}
-
-100%{
-    transform:translateY(0);
-}
-}
 /* =====================
-   Loading Animation
+   Keyframes
 ===================== */
-
-
-.loader{
-
-position:fixed;
-
-top:0;
-left:0;
-
-width:100%;
-height:100vh;
-
-background:white;
-
-display:flex;
-
-flex-direction:column;
-
-align-items:center;
-
-justify-content:center;
-
-z-index:9999;
-
-transition:.5s;
-
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-
-
-.loader-logo{
-
-font-size:60px;
-
-animation:cloudFloat 1.5s infinite;
-
+@keyframes float {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-15px); }
+  100% { transform: translateY(0); }
 }
 
-
-
-.loader h2{
-
-margin:15px 0 5px;
-
+@keyframes cloudFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-15px); }
 }
 
-
-
-.loader p{
-
-color:#64748b;
-
+/* =====================
+   Loader
+===================== */
+.loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: 0.5s;
 }
 
-
-
-.loader.hide{
-
-opacity:0;
-
-visibility:hidden;
-
+.loader-logo {
+  font-size: 60px;
+  animation: cloudFloat 1.5s infinite;
 }
 
-
-
-/* Cloud animation */
-
-@keyframes cloudFloat{
-
-
-0%,100%{
-
-transform:translateY(0);
-
+.loader h2 {
+  margin: 15px 0 5px;
 }
 
-
-50%{
-
-transform:translateY(-15px);
-
+.loader p {
+  color: #64748b;
 }
 
-
+.loader.hide {
+  opacity: 0;
+  visibility: hidden;
 }
+
 /* =====================
    Scroll Reveal
 ===================== */
-
-
-.reveal{
-
-opacity:0;
-
-transform:translateY(50px);
-
-transition:1s ease;
-
+.reveal {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: 1s ease;
 }
 
-
-.reveal.active{
-
-opacity:1;
-
-transform:translateY(0);
-
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
 }

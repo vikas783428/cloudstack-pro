@@ -604,3 +604,202 @@ body.dark .contact-action {
     #334155;
 
 }
+/* ==================================
+   TESTIMONIAL – DARK MODE
+================================== */
+
+body.dark .testimonials {
+    background: #0f172a;
+}
+
+
+body.dark .testimonials h2 {
+    color: #ffffff !important;
+}
+
+
+body.dark .testimonials .testimonial {
+    background: #1e293b;
+
+    border: 1px solid #334155;
+
+    border-radius: 18px;
+
+    padding: 35px;
+
+    box-shadow:
+        0 18px 40px
+        rgba(0, 0, 0, 0.30);
+}
+
+
+/* Main testimonial quote */
+
+body.dark .testimonials .testimonial blockquote {
+    display: block !important;
+
+    margin: 0;
+
+    color: #ffffff !important;
+
+    -webkit-text-fill-color: #ffffff !important;
+
+    font-size: 22px;
+
+    font-weight: 650;
+
+    line-height: 1.7;
+
+    opacity: 1 !important;
+
+    visibility: visible !important;
+
+    text-shadow:
+        0 1px 3px
+        rgba(0, 0, 0, 0.45);
+}
+
+
+/* Client information */
+
+body.dark .testimonials .testimonial footer {
+    margin-top: 20px;
+}
+
+
+body.dark .testimonials .testimonial cite {
+    display: inline-block;
+
+    color: #93c5fd !important;
+
+    -webkit-text-fill-color: #93c5fd !important;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    font-style: normal;
+
+    opacity: 1 !important;
+
+    visibility: visible !important;
+}
+/* ==================================
+   STATISTICS – DARK MODE FIX
+================================== */
+
+body.dark .stats,
+body.dark .statistics,
+body.dark .stats-section {
+    background: #0f172a;
+}
+
+
+/* Statistic cards */
+
+body.dark .stat-card {
+    background: #1e293b !important;
+
+    border: 1px solid #334155 !important;
+
+    box-shadow:
+        0 14px 35px
+        rgba(0, 0, 0, 0.30);
+}
+
+
+/* Main values:
+   99.9%, 24/7, Secure */
+
+body.dark .stat-card h2,
+body.dark .stat-card h3,
+body.dark .stat-number {
+    color: #60a5fa !important;
+
+    -webkit-text-fill-color: #60a5fa !important;
+
+    opacity: 1 !important;
+
+    visibility: visible !important;
+}
+
+
+/* Labels:
+   Uptime-ready, Monitoring, By design */
+
+body.dark .stat-card p,
+body.dark .stat-card span,
+body.dark .stat-label {
+    color: #f8fafc !important;
+
+    -webkit-text-fill-color: #f8fafc !important;
+
+    font-weight: 600;
+
+    opacity: 1 !important;
+
+    visibility: visible !important;
+}
+
+
+/* Premium hover effect */
+
+body.dark .stat-card:hover {
+    background: #263449 !important;
+
+    border-color: #3b82f6 !important;
+
+    transform: translateY(-7px);
+
+    box-shadow:
+        0 20px 42px
+        rgba(37, 99, 235, 0.18);
+}
+/* ==================================
+   HERO PROOF – DARK MODE FIX
+================================== */
+
+body.dark .hero-proof {
+    color: #ffffff;
+}
+
+
+/* Main values:
+   99.9%, 24/7, Secure */
+
+body.dark .hero-proof .proof-item strong {
+    color: #60a5fa !important;
+
+    -webkit-text-fill-color: #60a5fa !important;
+
+    opacity: 1 !important;
+
+    visibility: visible !important;
+
+    font-weight: 800 !important;
+}
+
+
+/* Labels:
+   Uptime-ready, Monitoring, By design */
+
+body.dark .hero-proof .proof-item span {
+    color: #f8fafc !important;
+
+    -webkit-text-fill-color: #f8fafc !important;
+
+    opacity: 1 !important;
+
+    visibility: visible !important;
+
+    font-weight: 600 !important;
+}
+
+
+/* Vertical divider */
+
+body.dark .hero-proof .proof-divider {
+    background: #475569 !important;
+
+    opacity: 1 !important;
+}

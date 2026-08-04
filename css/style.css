@@ -3811,3 +3811,58 @@ body {
     }
 
 }
+/* ==================================
+   TESTIMONIAL DARK MODE – EXACT FIX
+================================== */
+
+body.dark-mode .testimonials {
+    background-color: #0f172a;
+}
+
+
+body.dark-mode .testimonials h2 {
+    color: #f8fafc;
+}
+
+
+body.dark-mode .testimonials .testimonial {
+    background-color: #1e293b;
+
+    border: 1px solid rgba(148, 163, 184, 0.25);
+
+    box-shadow:
+        0 15px 35px
+        rgba(0, 0, 0, 0.25);
+}
+
+
+/* Quote text */
+
+body.dark-mode .testimonials .testimonial blockquote {
+    display: block;
+
+    color: #ffffff !important;
+
+    background: transparent !important;
+
+    opacity: 1 !important;
+
+    visibility: visible !important;
+
+    font-size: 20px;
+
+    line-height: 1.7;
+}
+
+
+/* Client name */
+
+body.dark-mode .testimonials .testimonial cite {
+    color: #93c5fd !important;
+
+    opacity: 1 !important;
+
+    font-style: normal;
+
+    font-weight: 600;
+}

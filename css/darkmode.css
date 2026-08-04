@@ -942,3 +942,103 @@ body.dark .services .card .card-link {
 body.dark .services .card .card-link span {
     color: #60a5fa !important;
 }
+/* ==================================
+   TRUSTED CLIENTS – DARK MODE
+================================== */
+
+
+/* Clients section */
+
+body.dark .clients {
+
+    background: #0f172a !important;
+
+}
+
+
+
+/* Heading */
+
+body.dark .clients h2 {
+
+    color: #ffffff !important;
+
+}
+
+
+
+/* Description */
+
+body.dark .section-description {
+
+    color: #cbd5e1 !important;
+
+}
+
+
+
+/* Logo Cards */
+
+body.dark .client-card {
+
+    background: #1e293b !important;
+
+    border: 1px solid #334155 !important;
+
+    box-shadow:
+        0 12px 30px
+        rgba(0,0,0,0.25);
+
+}
+
+
+
+/* Logo Text */
+
+body.dark .client-logo {
+
+    color: #94a3b8 !important;
+
+    filter: grayscale(100%);
+
+}
+
+
+
+/* Hover */
+
+body.dark .client-card:hover {
+
+    background: #263449 !important;
+
+    border-color: #3b82f6 !important;
+
+    box-shadow:
+        0 18px 40px
+        rgba(37,99,235,0.20);
+
+}
+
+
+
+/* Logo color reveal */
+
+body.dark .client-card:hover .client-logo {
+
+    color: #60a5fa !important;
+
+    filter: grayscale(0%);
+
+}
+/* Fix client logo dark mode */
+
+body.dark .client-logo {
+    color: #94a3b8 !important;
+    -webkit-text-fill-color: #94a3b8 !important;
+}
+
+
+body.dark .client-card:hover .client-logo {
+    color: #60a5fa !important;
+    -webkit-text-fill-color: #60a5fa !important;
+}

@@ -138,49 +138,181 @@ header {
   justify-content: center;
   align-items: center;
 }
+/* ==========================
+   Clients / Trust Section
+========================== */
 
-/* ========================== Clients ========================== */
 .clients {
-  padding: 50px 20px;
-  text-align: center;
-  background: white;
+    padding: 90px 20px;
+    text-align: center;
+    background: #ffffff;
 }
+
+
+/* Section Header */
+
+.section-header {
+    max-width: 750px;
+    margin: 0 auto 50px;
+}
+
+.section-tag {
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #2563eb;
+    margin-bottom: 12px;
+}
+
 
 .clients h2 {
-  font-size: 32px;
-  font-weight: 700;
-  color: #0f172a;
-  margin-bottom: 30px;
+    font-size: 36px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 15px;
 }
+
+
+.section-description {
+    color: #64748b;
+    font-size: 17px;
+    line-height: 1.6;
+}
+
+
+/* Logo Grid */
 
 .client-logos {
-  max-width: 1100px;
-  margin: auto;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 20px;
+    max-width: 1100px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 25px;
 }
 
-.client-logos div {
-  background: #eef2ff;
-  padding: 20px;
-  border-radius: 10px;
-  font-weight: 700;
-  font-size: 18px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  text-align: center;
-  color: #2563eb;
-  transition: all 0.3s ease;
+
+/* Logo Cards */
+
+.client-card {
+
+    height: 110px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #f8fafc;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 16px;
+
+    transition: 
+        transform .35s ease,
+        box-shadow .35s ease,
+        background .35s ease;
+
+    cursor: pointer;
 }
 
-.client-logos div:hover {
-  background: #2563eb;
-  color: #ffffff;
-  transform: translateY(-5px);
-  box-shadow: 0 6px 15px rgba(0,0,0,.1);
+
+.client-logo {
+
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+
+    color: #64748b;
+
+    filter: grayscale(100%);
+
+    transition: 
+        color .35s ease,
+        filter .35s ease;
 }
 
+
+
+/* Hover Animation */
+
+.client-card:hover {
+
+    transform: translateY(-8px);
+
+    background: #ffffff;
+
+    box-shadow:
+        0 15px 35px rgba(37,99,235,0.15);
+
+}
+
+
+.client-card:hover .client-logo {
+
+    color: #2563eb;
+
+    filter: grayscale(0%);
+
+}
+
+
+
+/* ==========================
+   Responsive
+========================== */
+
+
+@media(max-width:1024px){
+
+    .client-logos{
+        grid-template-columns: repeat(3,1fr);
+    }
+
+}
+
+
+
+@media(max-width:768px){
+
+    .clients{
+        padding:70px 20px;
+    }
+
+
+    .clients h2{
+        font-size:30px;
+    }
+
+
+    .client-logos{
+        grid-template-columns: repeat(2,1fr);
+        gap:18px;
+    }
+
+
+    .client-card{
+        height:95px;
+    }
+
+}
+
+
+
+@media(max-width:480px){
+
+    .client-logos{
+        grid-template-columns:1fr;
+    }
+
+
+    .clients h2{
+        font-size:26px;
+    }
+
+}
 /* ========================== Services ========================== */
 .services {
   padding: 60px 20px;
@@ -4327,4 +4459,16 @@ body.dark-mode .testimonials .testimonial cite {
         transition: none;
     }
 
+}
+/* Fix client logo text color */
+
+.client-logo {
+    color: #64748b !important;
+    -webkit-text-fill-color: #64748b !important;
+}
+
+
+.client-card:hover .client-logo {
+    color: #2563eb !important;
+    -webkit-text-fill-color: #2563eb !important;
 }

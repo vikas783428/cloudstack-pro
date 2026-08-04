@@ -3695,3 +3695,119 @@ body {
     }
 
 }
+/* =========================================
+   DESKTOP HERO WIDTH & LAYOUT FIX
+   Paste at the very bottom of style.css
+========================================= */
+
+@media (min-width: 769px) {
+
+    .hero {
+        width: 100%;
+        max-width: none;
+
+        min-height: 720px;
+
+        grid-template-columns:
+            minmax(480px, 0.95fr)
+            minmax(520px, 1.05fr);
+
+        gap: clamp(45px, 5vw, 100px);
+
+        padding:
+            145px
+            clamp(40px, 8vw, 150px)
+            85px;
+    }
+
+
+    .hero-content {
+        width: 100%;
+        max-width: 650px;
+    }
+
+
+    .hero h1 {
+        max-width: 680px;
+
+        font-size:
+            clamp(
+                52px,
+                5vw,
+                74px
+            );
+
+        line-height: 1.05;
+
+        letter-spacing: -2.5px;
+    }
+
+
+    .hero p {
+        max-width: 590px;
+
+        font-size: 18px;
+    }
+
+
+    .hero-image {
+        width: 100%;
+
+        max-width: 720px;
+
+        justify-self: end;
+    }
+
+
+    .hero-image img {
+        width: min(100%, 720px);
+
+        max-width: 720px;
+    }
+
+
+    .floating-card-one {
+        top: 10%;
+
+        left: -2%;
+    }
+
+
+    .floating-card-two {
+        right: -2%;
+
+        bottom: 11%;
+    }
+
+}
+
+
+/* =========================================
+   LARGE DESKTOPS
+========================================= */
+
+@media (min-width: 1400px) {
+
+    .hero {
+        grid-template-columns:
+            minmax(560px, 0.95fr)
+            minmax(620px, 1.05fr);
+
+        padding-left: 10vw;
+
+        padding-right: 10vw;
+
+        gap: 100px;
+    }
+
+
+    .hero-image {
+        max-width: 780px;
+    }
+
+
+    .hero-image img {
+        max-width: 780px;
+    }
+
+}

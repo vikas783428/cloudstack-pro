@@ -4510,3 +4510,73 @@ body.dark-mode .testimonials .testimonial cite {
     color: #2563eb !important;
     -webkit-text-fill-color: #2563eb !important;
 }
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .client-logos {
+    grid-template-columns: repeat(2, 1fr); /* 2 logos per row */
+    gap: 20px;
+  }
+
+  .client-card {
+    height: auto; /* let height adjust naturally */
+    padding: 15px;
+  }
+
+  .client-logo {
+    font-size: 16px; /* smaller text for mobile */
+    letter-spacing: 0.5px;
+    text-align: center;
+    white-space: normal; /* allow wrapping if needed */
+  }
+}
+
+@media (max-width: 480px) {
+  .client-logos {
+    grid-template-columns: 1fr; /* 1 logo per row */
+  }
+
+  .client-logo {
+    font-size: 14px;
+  }
+}
+/* Base styles */
+.client-card,
+.company-logos div {
+  height: auto;              /* no fixed height */
+  min-height: 80px;          /* keeps balance */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+.client-logo,
+.company-logos div {
+  font-size: clamp(14px, 2.5vw, 20px); /* scales smoothly */
+  text-align: center;
+  white-space: normal;       /* allow wrapping */
+  word-break: break-word;    /* break long words if needed */
+}
+
+/* Tablet view */
+@media (max-width: 768px) {
+  .client-logos {
+    grid-template-columns: repeat(2, 1fr); /* 2 per row */
+    gap: 15px;
+  }
+
+  .client-logo {
+    font-size: 16px;
+  }
+}
+
+/* Mobile view */
+@media (max-width: 480px) {
+  .client-logos {
+    grid-template-columns: 1fr; /* 1 per row */
+  }
+
+  .client-logo {
+    font-size: 14px;
+  }
+}

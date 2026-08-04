@@ -196,66 +196,104 @@ header {
 /* Logo Cards */
 
 .client-card {
-
     height: 110px;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     background: #f8fafc;
-
     border: 1px solid #e2e8f0;
-
     border-radius: 16px;
-
     transition: 
         transform .35s ease,
         box-shadow .35s ease,
         background .35s ease;
-
     cursor: pointer;
 }
 
-
 .client-logo {
-
     font-size: 20px;
     font-weight: 800;
     letter-spacing: 1px;
     text-transform: uppercase;
-
     color: #64748b;
-
     filter: grayscale(100%);
-
     transition: 
         color .35s ease,
         filter .35s ease;
 }
 
+/* Shine Sweep Animation */
+@keyframes shineSweep {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
 
+.company-logos div.active {
+  border: 2px solid currentColor;
+  color: currentColor;
+  background: linear-gradient(
+    120deg,
+    rgba(255,255,255,0.8) 0%,
+    currentColor 50%,
+    rgba(255,255,255,0.8) 100%
+  );
+  background-size: 200% auto;
+  transform: scale(1.03);
+  transition: all 0.4s ease, box-shadow 0.6s ease; 
+  box-shadow: 0 0 8px rgba(0,0,0,0.1);
+  animation: shineSweep 2.5s linear infinite;
+}
 
-/* Hover Animation */
-
-.client-card:hover {
-
-    transform: translateY(-8px);
-
-    background: #ffffff;
-
-    box-shadow:
-        0 15px 35px rgba(37,99,235,0.15);
-
+/* Default state (inactive logos) */
+.company-logos div {
+  transition: all 0.4s ease, box-shadow 0.6s ease 2s; /* 2s delay before fade starts */
+  box-shadow: 0 0 0 rgba(0,0,0,0); /* fades to none */
 }
 
 
+
+
+
+/* Brand-specific lighter colors */
+.company-logos div.active.google    { color: #8abcf9; }   /* lighter Google Blue */
+.company-logos div.active.microsoft { color: #fb9b6a; }   /* softer Microsoft Orange */
+.company-logos div.active.amazon    { color: #ffc266; }   /* lighter Amazon Orange */
+.company-logos div.active.oracle    { color: #ff8080; }   /* softer Oracle Red */
+.company-logos div.active.ibm       { color: #66b2e0; }   /* lighter IBM Blue */
+
+
+/* Dark Mode Support with pastel tint */
+@media (prefers-color-scheme: dark) {
+  .company-logos div.active {
+    background: linear-gradient(
+      120deg,
+      rgba(255,255,255,0.05) 0%,   /* subtle highlight */
+      currentColor 50%,            /* pastel brand tint */
+      rgba(255,255,255,0.05) 100%  /* subtle highlight */
+    );
+    box-shadow: 0 0 6px rgba(255,255,255,0.15); /* soft light glow */
+  }
+
+  /* Slightly lighter brand tones in dark mode */
+  .company-logos div.active.google    { color: #a7d0fb; }   /* pastel Google Blue */
+  .company-logos div.active.microsoft { color: #fca77a; }   /* pastel Microsoft Orange */
+  .company-logos div.active.amazon    { color: #ffd699; }   /* pastel Amazon Orange */
+  .company-logos div.active.oracle    { color: #ff9999; }   /* pastel Oracle Red */
+  .company-logos div.active.ibm       { color: #80c4eb; }   /* pastel IBM Blue */
+}
+
+
+
+/* Hover Animation */
+.client-card:hover {
+    transform: translateY(-8px);
+    background: #ffffff;
+    box-shadow: 0 15px 35px rgba(37,99,235,0.15);
+}
+
 .client-card:hover .client-logo {
-
     color: #2563eb;
-
     filter: grayscale(0%);
-
 }
 
 

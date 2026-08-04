@@ -1042,3 +1042,49 @@ body.dark .client-card:hover .client-logo {
     color: #60a5fa !important;
     -webkit-text-fill-color: #60a5fa !important;
 }
+/* ==================================
+   PREMIUM FEATURES – DARK MODE FIX
+================================== */
+
+/* Features section */
+body.dark .premium-features {
+  background: #0f172a !important;
+}
+
+/* Feature cards */
+body.dark .premium-features .feature-item {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.30) !important;
+}
+
+/* Feature card hover */
+body.dark .premium-features .feature-item:hover {
+  background: #263449 !important;
+  border-color: #3b82f6 !important;
+  box-shadow: 0 20px 42px rgba(37,99,235,0.18) !important;
+}
+
+/* Feature icons */
+body.dark .premium-features .feature-icon {
+  background: linear-gradient(135deg,#1d4ed8,#3730a3) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(147,197,253,0.25);
+  box-shadow: 0 8px 20px rgba(37,99,235,0.25);
+}
+
+/* Feature titles */
+body.dark .premium-features .feature-item h3 {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Feature descriptions */
+body.dark .premium-features .feature-item p {
+  color: #cbd5e1 !important;
+  -webkit-text-fill-color: #cbd5e1 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}

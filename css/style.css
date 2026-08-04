@@ -4733,3 +4733,162 @@ body.dark-mode .testimonials .testimonial cite {
   .feature-item { padding: 21px; gap: 15px; }
   .feature-icon { width: 46px; height: 46px; font-size: 20px; }
 }
+/* =========================================
+   PREMIUM FINAL CTA
+========================================= */
+.premium-cta {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 560px;
+  padding: 100px 25px;
+  overflow: hidden;
+  text-align: center;
+  background: linear-gradient(135deg,#0f172a 0%,#172554 50%,#1d4ed8 100%);
+}
+
+/* Decorative glow */
+.premium-cta::before {
+  content: "";
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  top: -280px;
+  left: -180px;
+  border-radius: 50%;
+  background: rgba(96,165,250,0.28);
+  filter: blur(60px);
+}
+.premium-cta::after {
+  content: "";
+  position: absolute;
+  width: 430px;
+  height: 430px;
+  right: -180px;
+  bottom: -260px;
+  border-radius: 50%;
+  background: rgba(79,70,229,0.35);
+  filter: blur(65px);
+}
+
+/* CTA content */
+.cta-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 850px;
+  margin: auto;
+}
+
+/* CTA tag */
+.cta-tag {
+  display: inline-flex;
+  padding: 8px 16px;
+  margin-bottom: 22px;
+  border: 1px solid rgba(255,255,255,0.22);
+  border-radius: 999px;
+  color: #dbeafe;
+  background: rgba(255,255,255,0.10);
+  font-size: 13px;
+  font-weight: 700;
+  backdrop-filter: blur(10px);
+}
+
+/* Heading */
+.premium-cta h2 {
+  max-width: 760px;
+  margin: 0 auto 20px;
+  color: #ffffff;
+  font-size: clamp(40px,6vw,68px);
+  font-weight: 850;
+  line-height: 1.08;
+  letter-spacing: -2px;
+}
+.premium-cta h2 span {
+  display: block;
+  color: #93c5fd;
+}
+
+/* Description */
+.premium-cta p {
+  max-width: 650px;
+  margin: 0 auto 35px;
+  color: #dbeafe;
+  font-size: 18px;
+  line-height: 1.75;
+}
+
+/* Buttons */
+.cta-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+.premium-cta .btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 15px 25px;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #1d4ed8;
+  font-weight: 800;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+  transition: transform 0.3s ease,box-shadow 0.3s ease;
+}
+.premium-cta .btn-primary:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 22px 42px rgba(0,0,0,0.32);
+}
+.premium-cta .btn-primary span {
+  font-size: 20px;
+  transition: transform 0.25s ease;
+}
+.premium-cta .btn-primary:hover span {
+  transform: translateX(5px);
+}
+
+/* Secondary button */
+.cta-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 25px;
+  border: 1px solid rgba(255,255,255,0.30);
+  border-radius: 999px;
+  color: #ffffff;
+  background: rgba(255,255,255,0.08);
+  font-weight: 700;
+  text-decoration: none;
+  backdrop-filter: blur(10px);
+  transition: background 0.3s ease,transform 0.3s ease;
+}
+.cta-secondary:hover {
+  background: rgba(255,255,255,0.16);
+  transform: translateY(-4px);
+}
+
+/* Trust points */
+.cta-trust {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  color: #dbeafe;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Mobile */
+@media (max-width: 650px) {
+  .premium-cta { min-height: auto; padding: 80px 20px; }
+  .premium-cta h2 { font-size: 40px; letter-spacing: -1.3px; }
+  .premium-cta p { font-size: 16px; }
+  .cta-actions { flex-direction: column; width: 100%; }
+  .premium-cta .btn-primary,.cta-secondary { width: min(100%,300px); }
+  .cta-trust { flex-direction: column; gap: 10px; }
+}

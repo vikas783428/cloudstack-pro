@@ -48,5 +48,59 @@ document.addEventListener("DOMContentLoaded", () => {
     logos.forEach(b => b.classList.remove('active'));
   });
 });
+/* ==================================
+   FAQ ACCORDION
+================================== */
+const faqQuestions = document.querySelectorAll(".faq-question");
+
+faqQuestions.forEach((question) => {
+  question.addEventListener("click", () => {
+    const currentItem = question.closest(".faq-item");
+    const isOpen = currentItem.classList.contains("active");
+
+    /* Close all FAQ items */
+    document.querySelectorAll(".faq-item").forEach((item) => {
+      item.classList.remove("active");
+      const button = item.querySelector(".faq-question");
+      if (button) {
+        button.setAttribute("aria-expanded", "false");
+      }
+    });
+
+    /* Open selected FAQ */
+    if (!isOpen) {
+      currentItem.classList.add("active");
+      question.setAttribute("aria-expanded", "true");
+    }
+  });
+});
+/* ==================================
+   FAQ ACCORDION
+================================== */
+document.addEventListener("DOMContentLoaded", function () {
+  const faqQuestions = document.querySelectorAll(".faq-question");
+
+  faqQuestions.forEach(function (question) {
+    question.addEventListener("click", function () {
+      const currentItem = question.closest(".faq-item");
+      const isOpen = currentItem.classList.contains("active");
+
+      /* Close all FAQ items */
+      document.querySelectorAll(".faq-item").forEach(function (item) {
+        item.classList.remove("active");
+        const button = item.querySelector(".faq-question");
+        if (button) {
+          button.setAttribute("aria-expanded", "false");
+        }
+      });
+
+      /* Open the selected FAQ */
+      if (!isOpen) {
+        currentItem.classList.add("active");
+        question.setAttribute("aria-expanded", "true");
+      }
+    });
+  });
+});
 
 

@@ -1106,3 +1106,28 @@ body.dark .company-logo:hover {
   border-color: #3b82f6 !important;
   transform: translateY(-7px);
 }
+/* ==================================
+   RESOURCES – DARK MODE
+================================== */
+body.dark .resources {
+  background: linear-gradient(180deg,#0f172a 0%,#111c30 100%) !important;
+}
+body.dark .resource-card {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.30);
+}
+body.dark .resource-card h3 { color: #f8fafc !important; }
+body.dark .resource-card p {
+  color: #cbd5e1 !important;
+  opacity: 1 !important;
+}
+body.dark .resource-category {
+  color: #93c5fd !important;
+  background: rgba(37,99,235,0.18) !important;
+}
+body.dark .read-more { color: #60a5fa !important; }
+body.dark .resource-card:hover {
+  background: #263449 !important;
+  border-color: rgba(96,165,250,0.50) !important;
+}

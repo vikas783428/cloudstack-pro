@@ -5409,5 +5409,126 @@ body.dark-mode .testimonials .testimonial cite {
     justify-self: center;
   }
 }
+/* ==================================
+   PREMIUM RESOURCES SECTION
+================================== */
+.resources {
+  padding: 110px clamp(20px,7vw,110px);
+  background: linear-gradient(180deg,#ffffff 0%,#f8fbff 100%);
+}
+
+/* Resource cards layout */
+.resource-cards {
+  width: 100%;
+  max-width: 1180px;
+  margin: 55px auto 0;
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 24px;
+}
+
+/* Resource card */
+.resource-card {
+  min-height: 340px;
+  display: flex;
+  flex-direction: column;
+  padding: 32px;
+  border: 1px solid #e2e8f0;
+  border-radius: 22px;
+  background: #ffffff;
+  box-shadow: 0 10px 30px rgba(15,23,42,0.06);
+  transition: transform 0.3s ease,border-color 0.3s ease,box-shadow 0.3s ease;
+}
+.resource-card:hover {
+  transform: translateY(-9px);
+  border-color: rgba(37,99,235,0.35);
+  box-shadow: 0 22px 45px rgba(37,99,235,0.13);
+}
+
+/* Category label */
+.resource-category {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 13px;
+  border-radius: 999px;
+  color: #2563eb;
+  background: #eff6ff;
+  font-size: 13px;
+  font-weight: 750;
+}
+
+/* Resource title */
+.resource-card h3 {
+  margin: 24px 0 14px;
+  color: #0f172a;
+  font-size: clamp(20px,2vw,24px);
+  line-height: 1.35;
+}
+
+/* Resource description */
+.resource-card p {
+  margin: 0;
+  color: #64748b;
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+/* Read More link */
+.read-more {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 28px;
+  color: #2563eb;
+  font-size: 15px;
+  font-weight: 750;
+  text-decoration: none;
+  transition: gap 0.25s ease,color 0.25s ease;
+}
+.read-more:hover {
+  gap: 13px;
+  color: #1d4ed8;
+}
+
+/* ==================================
+   TABLET
+================================== */
+@media (max-width: 950px) {
+  .resource-cards { grid-template-columns: repeat(2,1fr); }
+  .resource-card:last-child {
+    grid-column: 1 / -1;
+    max-width: 570px;
+    width: 100%;
+    justify-self: center;
+  }
+}
+
+/* ==================================
+   MOBILE
+================================== */
+@media (max-width: 650px) {
+  .resources { padding: 75px 18px; }
+  .resource-cards {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 38px;
+  }
+  .resource-card,.resource-card:last-child {
+    grid-column: auto;
+    max-width: none;
+    min-height: auto;
+    padding: 25px;
+    border-radius: 18px;
+  }
+  .resource-card h3 {
+    margin-top: 20px;
+    font-size: 20px;
+  }
+  .resource-card p { font-size: 14px; }
+  .read-more { padding-top: 24px; }
+}
 
 

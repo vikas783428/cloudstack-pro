@@ -5530,5 +5530,9 @@ body.dark-mode .testimonials .testimonial cite {
   .resource-card p { font-size: 14px; }
   .read-more { padding-top: 24px; }
 }
-
+html,
+body {
+    overflow-x: hidden;
+    width: 100%;
+}
 

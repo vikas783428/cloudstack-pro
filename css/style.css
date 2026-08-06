@@ -5649,3 +5649,43 @@ color:#fff;
     grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
     gap:30px;
 }
+/* ==================================
+   FEATURE COMPARISON
+================================== */
+
+.comparison{
+    padding:100px 20px;
+    background:#ffffff;
+}
+
+.comparison-table{
+    max-width:1100px;
+    margin:60px auto 0;
+    overflow-x:auto;
+}
+
+.comparison table{
+    width:100%;
+    border-collapse:collapse;
+    background:#fff;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 10px 30px rgba(15,23,42,.08);
+}
+
+.comparison th{
+    background:#2563eb;
+    color:#fff;
+    padding:18px;
+    font-size:18px;
+}
+
+.comparison td{
+    padding:18px;
+    border-bottom:1px solid #e2e8f0;
+    text-align:center;
+}
+
+.comparison tbody tr:hover{
+    background:#f8fafc;
+}

@@ -1188,3 +1188,23 @@ color:#f8fafc;
 body.dark .why-card p{
 color:#cbd5e1;
 }
+/* ==================================
+   FEATURE COMPARISON DARK MODE
+================================== */
+
+body.dark .comparison{
+    background:#0f172a;
+}
+
+body.dark .comparison table{
+    background:#1e293b;
+}
+
+body.dark .comparison td{
+    color:#f8fafc;
+    border-color:#334155;
+}
+
+body.dark .comparison tbody tr:hover{
+    background:#263449;
+}

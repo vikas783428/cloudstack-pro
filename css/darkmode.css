@@ -1131,3 +1131,60 @@ body.dark .resource-card:hover {
   background: #263449 !important;
   border-color: rgba(96,165,250,0.50) !important;
 }
+/* ==================================
+   PRODUCTS HERO DARK MODE
+================================== */
+
+body.dark .product-hero .hero-badge{
+background:#1e293b;
+color:#93c5fd;
+border-color:#334155;
+}
+
+body.dark .btn-secondary{
+border-color:#60a5fa;
+color:#60a5fa;
+}
+
+body.dark .btn-secondary:hover{
+background:#2563eb;
+color:#fff;
+}
+/* ==================================
+   PRODUCT CARDS DARK MODE
+================================== */
+
+body.dark .card-icon{
+    background:#263449;
+}
+
+body.dark .card-features li{
+    color:#e2e8f0;
+}
+
+body.dark .card-link{
+    color:#60a5fa;
+}
+/* ==================================
+   WHY PRODUCTS DARK MODE
+================================== */
+body.dark .why-products{
+background:#0f172a;
+}
+
+body.dark .why-card{
+background:#1e293b;
+border:1px solid #334155;
+}
+
+body.dark .why-icon{
+background:#263449;
+}
+
+body.dark .why-card h3{
+color:#f8fafc;
+}
+
+body.dark .why-card p{
+color:#cbd5e1;
+}

@@ -4,8 +4,25 @@ const aiChatClose = document.getElementById("aiChatClose");
 const aiChatInput = document.getElementById("aiChatInput");
 const aiChatSend = document.getElementById("aiChatSend");
 const aiChatMessages = document.getElementById("aiChatMessages");
+const newChatBtn = document.getElementById("newChatBtn");
 
 let welcomeShown = false;
+let chatHistory = [];
+
+// Load saved chat history
+function loadChatHistory() {
+    const savedChat = localStorage.getItem("cloudstackChat");
+    if (savedChat) {
+        chatHistory = JSON.parse(savedChat);
+        chatHistory.forEach(chat => {
+            const messageElement = document.createElement("div");
+            messageElement.className = `ai-message ${chat.type}`;
+            messageElement.textContent = chat.message;
+            aiChatMessages.appendChild(messageElement);
+        });
+        welcomeShown = true;
+    }
+}
 
 // Open chatbot
 aiChatToggle.addEventListener("click", () => {
@@ -20,6 +37,7 @@ aiChatToggle.addEventListener("click", () => {
     }
 });
 
+// Close chatbot
 aiChatClose.addEventListener("click", () => {
     aiChatWindow.classList.remove("active");
 });
@@ -30,6 +48,8 @@ function addMessage(message, type) {
     messageElement.className = `ai-message ${type}`;
     messageElement.textContent = message;
     aiChatMessages.appendChild(messageElement);
+    chatHistory.push({ message: message, type: type });
+    localStorage.setItem("cloudstackChat", JSON.stringify(chatHistory));
     aiChatMessages.scrollTop = aiChatMessages.scrollHeight;
 }
 
@@ -37,7 +57,13 @@ function addMessage(message, type) {
 function addQuickButtons() {
     const container = document.createElement("div");
     container.className = "ai-quick-buttons";
-    const buttons = ["Cloud Migration", "DevOps Services", "Kubernetes Solutions", "Contact Sales"];
+    const buttons = [
+        "Cloud Migration",
+        "DevOps Services",
+        "Kubernetes Solutions",
+        "Contact Sales",
+        "Request Consultation"
+    ];
     buttons.forEach(text => {
         const button = document.createElement("button");
         button.textContent = text;
@@ -50,26 +76,35 @@ function addQuickButtons() {
     aiChatMessages.appendChild(container);
 }
 
+// New Chat function
+function startNewChat() {
+    aiChatMessages.innerHTML = "";
+    chatHistory = [];
+    localStorage.removeItem("cloudstackChat");
+    welcomeShown = true;
+    addMessage(
+        "Hi 👋 I'm CloudStack AI.\n\nI can help you with cloud solutions, DevOps, Kubernetes, migration, and security services.",
+        "bot"
+    );
+    addQuickButtons();
+}
+
 // Send message
 async function sendMessage() {
     const message = aiChatInput.value.trim();
     if (!message) return;
-
     addMessage(message, "user");
     aiChatInput.value = "";
-
     const loadingMessage = document.createElement("div");
     loadingMessage.className = "ai-message bot";
     loadingMessage.textContent = "CloudStack AI is typing... 🤖";
     aiChatMessages.appendChild(loadingMessage);
-
     try {
         const response = await fetch("/api/chat", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ message: message })
         });
-
         const data = await response.json();
         loadingMessage.remove();
         addMessage(
@@ -83,10 +118,20 @@ async function sendMessage() {
     }
 }
 
+// Send button
 aiChatSend.addEventListener("click", sendMessage);
 
+// Enter key
 aiChatInput.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
         sendMessage();
     }
 });
+
+// New Chat button
+newChatBtn.addEventListener("click", () => {
+    startNewChat();
+});
+
+// Initialize saved chat
+loadChatHistory();

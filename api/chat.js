@@ -32,8 +32,9 @@ export default async function handler(req, res) {
     console.log("Gemini Response:", JSON.stringify(data));
 
     const reply =
-      data.candidates?.[0]?.content?.parts?.[0]?.text ||
-      "Sorry, I couldn't generate a response.";
+    data.candidates?.[0]?.content?.parts?.[0]?.text ||
+    data.error?.message ||
+    "AI service temporarily unavailable.";
 
     res.status(200).json({
       reply: reply,

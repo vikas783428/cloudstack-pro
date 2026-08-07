@@ -6100,3 +6100,23 @@ color:#fff;
     }
 
 }
+.ai-quick-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 10px 0;
+}
+
+
+.ai-quick-buttons button {
+    padding: 8px 12px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+
+}
+
+.ai-quick-buttons button:hover {
+    transform: translateY(-2px);
+}

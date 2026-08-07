@@ -5,7 +5,6 @@ const aiChatClose = document.getElementById("aiChatClose");
 const aiChatInput = document.getElementById("aiChatInput");
 const aiChatSend = document.getElementById("aiChatSend");
 const aiChatMessages = document.getElementById("aiChatMessages");
-const newChatBtn = document.getElementById("newChatBtn");
 
 let welcomeShown = false;
 
@@ -14,7 +13,6 @@ aiChatToggle.addEventListener("click", () => {
     aiChatWindow.classList.toggle("active");
 });
 
-// Close chatbot
 aiChatClose.addEventListener("click", () => {
     aiChatWindow.classList.remove("active");
 });
@@ -54,6 +52,7 @@ async function sendMessage() {
     const message = aiChatInput.value.trim();
 
     if (!message) return;
+
     addMessage(message, "user");
 
     aiChatInput.value = "";
@@ -121,11 +120,9 @@ async function sendMessage() {
 }
 
 
-// Send button
 aiChatSend.addEventListener("click", sendMessage);
 
 
-// Enter key
 aiChatInput.addEventListener("keydown", (event) => {
 
     if (event.key === "Enter") {
@@ -133,5 +130,12 @@ aiChatInput.addEventListener("keydown", (event) => {
         sendMessage();
 
     }
-
 });
+
+// New Chat button
+newChatBtn.addEventListener("click", () => {
+    startNewChat();
+});
+
+// Initialize saved chat
+loadChatHistory();

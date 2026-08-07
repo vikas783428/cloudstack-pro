@@ -1208,3 +1208,72 @@ body.dark .comparison td{
 body.dark .comparison tbody tr:hover{
     background:#263449;
 }
+/* ==================================
+   PRODUCT STATISTICS DARK MODE
+================================== */
+
+body.dark .product-stats {
+    background: #0f172a;
+}
+
+body.dark .stat-card {
+    background: #1e293b;
+    border-color: #334155;
+}
+
+body.dark .stat-card strong {
+    color: #60a5fa;
+}
+
+body.dark .stat-card span {
+    color: #cbd5e1;
+}
+/* ==================================
+   PRODUCT TESTIMONIALS DARK MODE
+================================== */
+
+body.dark .product-testimonials {
+    background: #0f172a;
+}
+
+body.dark .product-testimonial {
+    background: #1e293b;
+    border-color: #334155;
+}
+
+body.dark .product-testimonial blockquote {
+    color: #cbd5e1;
+}
+
+body.dark .testimonial-author strong {
+    color: #f8fafc;
+}
+
+body.dark .testimonial-author span {
+    color: #94a3b8;
+}
+/* ==================================
+   FEATURE COMPARISON HEADER DARK MODE
+================================== */
+
+body.dark .comparison .section-header {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+body.dark .comparison .section-header .section-tag {
+    display: inline-block;
+    text-align: center;
+}
+
+body.dark .comparison .section-header h2 {
+    text-align: center;
+    margin: 20px 0;
+}
+
+body.dark .comparison .section-header p {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}

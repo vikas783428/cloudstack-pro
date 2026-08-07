@@ -82,6 +82,54 @@
     <link rel="stylesheet" href="css/darkmode.css">
     
 </head>
+<!-- AI Chat Assistant -->
+<div class="ai-chat">
+
+    <button class="ai-chat-toggle" id="aiChatToggle" aria-label="Open AI Assistant">
+        🤖
+    </button>
+
+    <div class="ai-chat-window" id="aiChatWindow">
+
+        <div class="ai-chat-header">
+            <div>
+                <strong>CloudStack AI</strong>
+                <span>● Online</span>
+            </div>
+
+            <button id="aiChatClose" aria-label="Close chat">
+                ×
+            </button>
+        </div>
+
+        <div class="ai-chat-messages" id="aiChatMessages">
+
+            <div class="ai-message bot">
+                Hi! 👋 I'm CloudStack AI.
+                How can I help you with our cloud solutions?
+            </div>
+
+        </div>
+
+        <div class="ai-chat-input">
+
+            <input
+                type="text"
+                id="aiChatInput"
+                placeholder="Ask about CloudStack Pro..."
+                autocomplete="off"
+            >
+
+            <button id="aiChatSend">
+                ➤
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
 <body>
     <!-- Header -->
     <header role="banner">
@@ -921,6 +969,7 @@ Automating deployments with modern tools.
     <script src="js/faq.js"></script>
     <script src="js/navbar.js"></script>
    <script src="js/resources.js"></script>
+   <script src="js/ai-chat.js"></script>
 
 
 </body>

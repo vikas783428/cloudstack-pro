@@ -38,12 +38,16 @@ async function sendMessage() {
 
     aiChatInput.value = "";
 
+
     // Loading message
     const loadingMessage = document.createElement("div");
+
     loadingMessage.className = "ai-message bot";
+
     loadingMessage.textContent = "Thinking... 🤖";
 
     aiChatMessages.appendChild(loadingMessage);
+
 
     try {
 
@@ -69,8 +73,20 @@ async function sendMessage() {
         loadingMessage.remove();
 
 
+        // Handle API errors gracefully
+        if (!data.reply) {
+
+            addMessage(
+                "AI service is temporarily unavailable. Please try again later. 🤖",
+                "bot"
+            );
+
+            return;
+        }
+
+
         addMessage(
-            data.reply || "Sorry, I couldn't understand that.",
+            data.reply,
             "bot"
         );
 
@@ -82,7 +98,7 @@ async function sendMessage() {
         loadingMessage.remove();
 
         addMessage(
-            "Sorry, AI service is temporarily unavailable.",
+            "AI service is temporarily unavailable. Please try again later. 🤖",
             "bot"
         );
     }

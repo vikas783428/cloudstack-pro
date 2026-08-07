@@ -31,11 +31,13 @@ export default async function handler(req, res) {
     const data = await response.json();
     console.log("Gemini Response:", JSON.stringify(data));
 
-    const reply =
-    data.candidates?.[0]?.content?.parts?.[0]?.text ||
-    data.error?.message ||
-    "AI service temporarily unavailable.";
+    let reply;
 
+    if (data.candidates?.[0]?.content?.parts?.[0]?.text) {
+    reply = data.candidates[0].content.parts[0].text;
+    } else {
+     reply = "AI service is temporarily unavailable. Please try again later. 🤖";
+    }
     res.status(200).json({
       reply: reply,
     });

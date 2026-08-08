@@ -28,9 +28,20 @@ export default async function handler(req, res) {
 
         // =========================================================
         // PREDEFINED ANSWERS
-        // These answers DO NOT use Groq API requests/tokens.
-        // Common questions are answered instantly.
+        //
+        // IMPORTANT:
+        // We now use specific question patterns instead of simply
+        // checking whether words like "kubernetes" exist.
+        //
+        // This means:
+        //
+        // "What is Kubernetes?"             -> FAQ
+        // "Tell me about Kubernetes"        -> FAQ
+        // "How can Kubernetes improve..."  -> GROQ
+        //
+        // This saves API usage while keeping complex questions AI.
         // =========================================================
+
 
         const predefinedAnswers = [
 
@@ -39,13 +50,16 @@ export default async function handler(req, res) {
             // -----------------------------------------------------
 
             {
-                keywords: [
-                    "hello",
-                    "hi",
-                    "hey",
-                    "good morning",
-                    "good afternoon",
-                    "good evening"
+                patterns: [
+                    /^hi$/,
+                    /^hello$/,
+                    /^hey$/,
+                    /^hi there$/,
+                    /^hello there$/,
+                    /^hey there$/,
+                    /^good morning$/,
+                    /^good afternoon$/,
+                    /^good evening$/
                 ],
 
                 answer:
@@ -54,16 +68,15 @@ export default async function handler(req, res) {
 
 
             // -----------------------------------------------------
-            // ABOUT CLOUDSTACK PRO
+            // WHAT IS CLOUDSTACK PRO
             // -----------------------------------------------------
 
             {
-                keywords: [
-                    "what is cloudstack pro",
-                    "what is cloudstack",
-                    "tell me about cloudstack pro",
-                    "about cloudstack pro",
-                    "about cloudstack"
+                patterns: [
+                    /^what is cloudstack pro\??$/,
+                    /^what's cloudstack pro\??$/,
+                    /^tell me about cloudstack pro\.?$/,
+                    /^about cloudstack pro\.?$/
                 ],
 
                 answer:
@@ -76,14 +89,13 @@ export default async function handler(req, res) {
             // -----------------------------------------------------
 
             {
-                keywords: [
-                    "what services do you offer",
-                    "what services do you provide",
-                    "services you offer",
-                    "services you provide",
-                    "your services",
-                    "cloudstack pro services",
-                    "list your services"
+                patterns: [
+                    /^what services do you offer\??$/,
+                    /^what services do you provide\??$/,
+                    /^what are your services\??$/,
+                    /^list your services\.?$/,
+                    /^what services does cloudstack pro offer\??$/,
+                    /^what services does cloudstack pro provide\??$/
                 ],
 
                 answer:
@@ -96,11 +108,12 @@ export default async function handler(req, res) {
             // -----------------------------------------------------
 
             {
-                keywords: [
-                    "cloud hosting",
-                    "what is cloud hosting",
-                    "cloud hosting service",
-                    "cloud hosting services"
+                patterns: [
+                    /^what is cloud hosting\??$/,
+                    /^tell me about cloud hosting\.?$/,
+                    /^what is your cloud hosting\??$/,
+                    /^what does cloud hosting include\??$/,
+                    /^what are your cloud hosting services\??$/
                 ],
 
                 answer:
@@ -113,12 +126,11 @@ export default async function handler(req, res) {
             // -----------------------------------------------------
 
             {
-                keywords: [
-                    "devops",
-                    "what is devops",
-                    "devops automation",
-                    "devops services",
-                    "devops service"
+                patterns: [
+                    /^what is devops\??$/,
+                    /^tell me about devops\.?$/,
+                    /^what is devops automation\??$/,
+                    /^what are your devops services\??$/
                 ],
 
                 answer:
@@ -131,13 +143,14 @@ export default async function handler(req, res) {
             // -----------------------------------------------------
 
             {
-                keywords: [
-                    "kubernetes",
-                    "what is kubernetes",
-                    "kubernetes solutions",
-                    "kubernetes service",
-                    "kubernetes services",
-                    "k8s"
+                patterns: [
+                    /^what is kubernetes\??$/,
+                    /^what's kubernetes\??$/,
+                    /^tell me about kubernetes\.?$/,
+                    /^explain kubernetes\.?$/,
+                    /^what are kubernetes solutions\??$/,
+                    /^what is k8s\??$/,
+                    /^tell me about k8s\.?$/
                 ],
 
                 answer:
@@ -150,11 +163,10 @@ export default async function handler(req, res) {
             // -----------------------------------------------------
 
             {
-                keywords: [
-                    "docker",
-                    "what is docker",
-                    "docker service",
-                    "docker support"
+                patterns: [
+                    /^what is docker\??$/,
+                    /^tell me about docker\.?$/,
+                    /^what is docker used for\??$/
                 ],
 
                 answer:
@@ -167,12 +179,11 @@ export default async function handler(req, res) {
             // -----------------------------------------------------
 
             {
-                keywords: [
-                    "ai monitoring",
-                    "what is ai monitoring",
-                    "monitoring",
-                    "ai monitoring service",
-                    "ai monitoring services"
+                patterns: [
+                    /^what is ai monitoring\??$/,
+                    /^tell me about ai monitoring\.?$/,
+                    /^what does ai monitoring do\??$/,
+                    /^what is your ai monitoring service\??$/
                 ],
 
                 answer:
@@ -185,13 +196,12 @@ export default async function handler(req, res) {
             // -----------------------------------------------------
 
             {
-                keywords: [
-                    "security",
-                    "security suite",
-                    "cloud security",
-                    "security services",
-                    "security service",
-                    "is cloudstack secure"
+                patterns: [
+                    /^what security services do you provide\??$/,
+                    /^what is your security suite\??$/,
+                    /^tell me about your security\??$/,
+                    /^what security features do you provide\??$/,
+                    /^what security does cloudstack pro provide\??$/
                 ],
 
                 answer:
@@ -204,11 +214,10 @@ export default async function handler(req, res) {
             // -----------------------------------------------------
 
             {
-                keywords: [
-                    "ssl",
-                    "ssl encryption",
-                    "do you provide ssl",
-                    "ssl security"
+                patterns: [
+                    /^do you provide ssl\??$/,
+                    /^do you provide ssl encryption\??$/,
+                    /^what is ssl encryption\??$/
                 ],
 
                 answer:
@@ -221,10 +230,10 @@ export default async function handler(req, res) {
             // -----------------------------------------------------
 
             {
-                keywords: [
-                    "ddos",
-                    "ddos protection",
-                    "do you provide ddos protection"
+                patterns: [
+                    /^do you provide ddos protection\??$/,
+                    /^does cloudstack pro provide ddos protection\??$/,
+                    /^what is ddos protection\??$/
                 ],
 
                 answer:
@@ -237,12 +246,11 @@ export default async function handler(req, res) {
             // -----------------------------------------------------
 
             {
-                keywords: [
-                    "analytics",
-                    "analytics dashboard",
-                    "what is analytics dashboard",
-                    "performance reports",
-                    "resource tracking"
+                patterns: [
+                    /^what is analytics dashboard\??$/,
+                    /^tell me about analytics dashboard\.?$/,
+                    /^what does the analytics dashboard do\??$/,
+                    /^what is your analytics dashboard\??$/
                 ],
 
                 answer:
@@ -255,12 +263,12 @@ export default async function handler(req, res) {
             // -----------------------------------------------------
 
             {
-                keywords: [
-                    "cdn",
-                    "global cdn",
-                    "what is cdn",
-                    "global content delivery",
-                    "content delivery"
+                patterns: [
+                    /^what is cdn\??$/,
+                    /^what is global cdn\??$/,
+                    /^tell me about global cdn\.?$/,
+                    /^what does your global cdn do\??$/,
+                    /^what is your cdn\??$/
                 ],
 
                 answer:
@@ -273,13 +281,12 @@ export default async function handler(req, res) {
             // -----------------------------------------------------
 
             {
-                keywords: [
-                    "ci cd",
-                    "ci/cd",
-                    "cicd",
-                    "continuous integration",
-                    "continuous deployment",
-                    "deployment pipeline"
+                patterns: [
+                    /^what is ci\/cd\??$/,
+                    /^what is ci cd\??$/,
+                    /^what is cicd\??$/,
+                    /^tell me about ci\/cd\.?$/,
+                    /^what are ci\/cd pipelines\??$/
                 ],
 
                 answer:
@@ -288,35 +295,17 @@ export default async function handler(req, res) {
 
 
             // -----------------------------------------------------
-            // CLOUD MIGRATION
-            // -----------------------------------------------------
-
-            {
-                keywords: [
-                    "cloud migration",
-                    "cloud migration service",
-                    "cloud migration services",
-                    "can you migrate to cloud"
-                ],
-
-                answer:
-                    "CloudStack Pro focuses on cloud solutions and infrastructure. For specific cloud migration requirements, please contact the sales team through the Contact page."
-            },
-
-
-            // -----------------------------------------------------
             // PRICING
             // -----------------------------------------------------
 
             {
-                keywords: [
-                    "pricing",
-                    "price",
-                    "prices",
-                    "cost",
-                    "how much",
-                    "pricing plans",
-                    "plans"
+                patterns: [
+                    /^what is your pricing\??$/,
+                    /^what are your prices\??$/,
+                    /^how much does cloudstack pro cost\??$/,
+                    /^how much does it cost\??$/,
+                    /^what are your pricing plans\??$/,
+                    /^tell me about your pricing\.?$/
                 ],
 
                 answer:
@@ -329,15 +318,14 @@ export default async function handler(req, res) {
             // -----------------------------------------------------
 
             {
-                keywords: [
-                    "contact",
-                    "contact you",
-                    "contact sales",
-                    "contact the company",
-                    "how can i contact",
-                    "how do i contact",
-                    "sales team",
-                    "talk to sales"
+                patterns: [
+                    /^how can i contact you\??$/,
+                    /^how can i contact cloudstack pro\??$/,
+                    /^how do i contact you\??$/,
+                    /^how do i contact cloudstack pro\??$/,
+                    /^how can i contact sales\??$/,
+                    /^how do i contact sales\??$/,
+                    /^where can i contact you\??$/
                 ],
 
                 answer:
@@ -350,11 +338,11 @@ export default async function handler(req, res) {
             // -----------------------------------------------------
 
             {
-                keywords: [
-                    "why cloudstack pro",
-                    "why choose cloudstack pro",
-                    "why should i choose cloudstack pro",
-                    "why choose you"
+                patterns: [
+                    /^why cloudstack pro\??$/,
+                    /^why choose cloudstack pro\??$/,
+                    /^why should i choose cloudstack pro\??$/,
+                    /^why choose cloudstack\??$/
                 ],
 
                 answer:
@@ -367,12 +355,11 @@ export default async function handler(req, res) {
             // -----------------------------------------------------
 
             {
-                keywords: [
-                    "technologies",
-                    "technology do you use",
-                    "technologies do you use",
-                    "tech stack",
-                    "technology stack"
+                patterns: [
+                    /^what technologies do you use\??$/,
+                    /^what technology do you use\??$/,
+                    /^what is your tech stack\??$/,
+                    /^what technologies does cloudstack pro use\??$/
                 ],
 
                 answer:
@@ -385,11 +372,11 @@ export default async function handler(req, res) {
             // -----------------------------------------------------
 
             {
-                keywords: [
-                    "uptime",
-                    "99.99 uptime",
-                    "99.99% uptime",
-                    "uptime sla"
+                patterns: [
+                    /^what is your uptime\??$/,
+                    /^what uptime do you provide\??$/,
+                    /^do you provide 99\.99% uptime\??$/,
+                    /^what is the uptime sla\??$/
                 ],
 
                 answer:
@@ -402,11 +389,11 @@ export default async function handler(req, res) {
             // -----------------------------------------------------
 
             {
-                keywords: [
-                    "backup",
-                    "backups",
-                    "automatic backups",
-                    "does cloudstack provide backup"
+                patterns: [
+                    /^do you provide backups\??$/,
+                    /^do you provide automatic backups\??$/,
+                    /^does cloudstack pro provide backups\??$/,
+                    /^does cloudstack pro provide automatic backups\??$/
                 ],
 
                 answer:
@@ -415,15 +402,14 @@ export default async function handler(req, res) {
 
 
             // -----------------------------------------------------
-            // GLOBAL DATA CENTERS
+            // DATA CENTERS
             // -----------------------------------------------------
 
             {
-                keywords: [
-                    "data centers",
-                    "datacenters",
-                    "global data centers",
-                    "where are your servers"
+                patterns: [
+                    /^where are your data centers\??$/,
+                    /^where are the data centers\??$/,
+                    /^does cloudstack pro have global data centers\??$/
                 ],
 
                 answer:
@@ -436,10 +422,11 @@ export default async function handler(req, res) {
             // -----------------------------------------------------
 
             {
-                keywords: [
-                    "thank you",
-                    "thanks",
-                    "thank"
+                patterns: [
+                    /^thank you$/,
+                    /^thanks$/,
+                    /^thank you so much$/,
+                    /^thanks a lot$/
                 ],
 
                 answer:
@@ -450,13 +437,13 @@ export default async function handler(req, res) {
 
 
         // =========================================================
-        // CHECK PREDEFINED ANSWERS FIRST
+        // CHECK PREDEFINED ANSWERS
         // =========================================================
 
         for (const item of predefinedAnswers) {
 
-            const matched = item.keywords.some(keyword =>
-                userMessage.includes(keyword)
+            const matched = item.patterns.some(pattern =>
+                pattern.test(userMessage)
             );
 
 
@@ -482,9 +469,15 @@ export default async function handler(req, res) {
 
 
         // =========================================================
-        // NO PREDEFINED ANSWER
-        // SEND REQUEST TO GROQ
+        // NO FAQ MATCH
+        // SEND QUESTION TO GROQ
         // =========================================================
+
+        console.log(
+            "No predefined answer. Sending to Groq:",
+            message
+        );
+
 
         const response = await fetch(
 
@@ -515,7 +508,6 @@ export default async function handler(req, res) {
                         {
 
                             role: "system",
-
 
                             content: `
 You are CloudStack Pro AI, the official AI assistant for the CloudStack Pro website.
@@ -672,7 +664,6 @@ Keep responses helpful and reasonably short so the chatbot is easy to use.
 
 
     } catch (error) {
-
 
         console.error(
             "Groq Error:",

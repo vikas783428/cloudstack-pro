@@ -6120,3 +6120,7 @@ color:#fff;
 .ai-quick-buttons button:hover {
     transform: translateY(-2px);
 }
+#aiChatSend:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

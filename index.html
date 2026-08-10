@@ -86,50 +86,63 @@
 <div class="ai-chat">
 
     <button class="ai-chat-toggle" id="aiChatToggle" aria-label="Open AI Assistant">
-        🤖
-    </button>
+    🤖
+</button>
 
-    <div class="ai-chat-window" id="aiChatWindow">
+<div class="ai-chat-window" id="aiChatWindow">
 
-        <div class="ai-chat-header">
-            <div>
-                <strong>CloudStack AI</strong>
-                <span>● Online</span>
-            </div>
-
-            <button id="aiChatClose" aria-label="Close chat">
-                ×
-            </button>
+    <div class="ai-chat-header">
+        <div>
+            <strong>CloudStack AI</strong>
+            <span>● Online</span>
         </div>
 
-        <div class="ai-chat-messages" id="aiChatMessages">
+        <button id="aiChatClose" aria-label="Close chat">
+            ×
+        </button>
+    </div>
 
-            <div class="ai-message bot">
-                Hi! 👋 I'm CloudStack AI.
-                How can I help you with our cloud solutions?
-            </div>
+    <div class="ai-chat-messages" id="aiChatMessages">
 
-        </div>
-
-        <div class="ai-chat-input">
-
-            <input
-                type="text"
-                id="aiChatInput"
-                placeholder="Ask about CloudStack Pro..."
-                autocomplete="off"
-            >
-
-            <button id="aiChatSend">
-                ➤
-            </button>
-
+        <div class="ai-message bot">
+            Hi! 👋 I'm CloudStack AI.
+            How can I help you with our cloud solutions?
         </div>
 
     </div>
 
-</div>
+    <div class="ai-quick-buttons">
+        <button type="button">I need a cloud solution</button>
+        <button type="button">I need a quote</button>
+        <button type="button">Discuss your services</button>
+    </div>
 
+    <div class="ai-typing" id="aiTyping">
+        <div class="ai-typing-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <span class="ai-typing-text">AI is typing...</span>
+    </div>
+
+    <!-- INPUT MUST BE INSIDE CHAT WINDOW -->
+    <div class="ai-chat-input">
+
+        <input
+            type="text"
+            id="aiChatInput"
+            placeholder="Ask about CloudStack Pro..."
+            autocomplete="off"
+        >
+
+        <button id="aiChatSend" aria-label="Send message">
+            ➤
+        </button>
+
+    </div>
+
+</div>
 <body>
     <!-- Header -->
     <header role="banner">

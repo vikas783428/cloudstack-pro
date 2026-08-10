@@ -5,97 +5,250 @@ const aiChatInput = document.getElementById("aiChatInput");
 const aiChatSend = document.getElementById("aiChatSend");
 const aiChatMessages = document.getElementById("aiChatMessages");
 const newChatBtn = document.getElementById("newChatBtn");
+const aiTyping = document.getElementById("aiTyping");
 
 let welcomeShown = false;
 
-// Open chatbot
+
+// ================================
+// OPEN CHATBOT
+// ================================
+
 aiChatToggle.addEventListener("click", () => {
     aiChatWindow.classList.toggle("active");
 });
 
-// Close chatbot
+
+// ================================
+// CLOSE CHATBOT
+// ================================
+
 aiChatClose.addEventListener("click", () => {
     aiChatWindow.classList.remove("active");
 });
 
-// Add message
+
+// ================================
+// ADD MESSAGE
+// ================================
+
 function addMessage(message, type) {
+
     const messageElement = document.createElement("div");
+
     messageElement.className = `ai-message ${type}`;
+
     messageElement.textContent = message;
+
     aiChatMessages.appendChild(messageElement);
+
     aiChatMessages.scrollTop = aiChatMessages.scrollHeight;
 }
 
-// Quick action buttons
-function addQuickButtons() {
-    const container = document.createElement("div");
-    container.className = "ai-quick-buttons";
-    const buttons = ["Cloud Migration", "DevOps Services", "Kubernetes Solutions", "Contact Sales"];
-    buttons.forEach(text => {
-        const button = document.createElement("button");
-        button.textContent = text;
-        button.addEventListener("click", () => {
-            aiChatInput.value = text;
-            sendMessage();
-        });
-        container.appendChild(button);
-    });
-    aiChatMessages.appendChild(container);
+
+// ================================
+// SHOW TYPING INDICATOR
+// ================================
+
+function showTyping() {
+
+    if (aiTyping) {
+        aiTyping.style.display = "flex";
+
+        aiChatMessages.scrollTop =
+            aiChatMessages.scrollHeight;
+    }
 }
 
-// Send message
+
+// ================================
+// HIDE TYPING INDICATOR
+// ================================
+
+function hideTyping() {
+
+    if (aiTyping) {
+        aiTyping.style.display = "none";
+    }
+}
+
+
+// ================================
+// SEND MESSAGE
+// ================================
+
 async function sendMessage() {
+
     const message = aiChatInput.value.trim();
+
     if (!message) return;
+
     if (aiChatSend.disabled) return;
+
+
+    // Disable send button
     aiChatSend.disabled = true;
+
+
+    // Add user message
     addMessage(message, "user");
+
+
+    // Clear input
     aiChatInput.value = "";
-    const loadingMessage = document.createElement("div");
-    loadingMessage.className = "ai-message bot";
-    loadingMessage.textContent = "Thinking... 🤖";
-    aiChatMessages.appendChild(loadingMessage);
-    aiChatMessages.scrollTop = aiChatMessages.scrollHeight;
+
+
+    // Show typing animation
+    showTyping();
+
+
     try {
+
         const response = await fetch("/api/chat", {
+
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ message: message })
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                message: message
+            })
+
         });
+
+
         const data = await response.json();
-        loadingMessage.remove();
+
+
+        // Hide typing animation
+        hideTyping();
+
+
+        // Check response
         if (!data.reply) {
-            addMessage("AI service is temporarily unavailable. Please try again later. 🤖", "bot");
+
+            addMessage(
+                "AI service is temporarily unavailable. Please try again later. 🤖",
+                "bot"
+            );
+
             return;
         }
+
+
+        // Add AI response
         addMessage(data.reply, "bot");
+
+
     } catch (error) {
+
         console.error("AI Error:", error);
-        loadingMessage.remove();
-        addMessage("AI service is temporarily unavailable. Please try again later. 🤖", "bot");
+
+
+        // Hide typing animation
+        hideTyping();
+
+
+        addMessage(
+            "AI service is temporarily unavailable. Please try again later. 🤖",
+            "bot"
+        );
+
+    } finally {
+
+        // Re-enable send button
+        setTimeout(() => {
+
+            aiChatSend.disabled = false;
+
+        }, 4000);
+
     }
-    setTimeout(() => {
-        aiChatSend.disabled = false;
-    }, 4000);
 }
 
-// Send button click
-aiChatSend.addEventListener("click", sendMessage);
 
-// Enter key send
-aiChatInput.addEventListener("keydown", (event) => {
-    if (event.key === "Enter" && !aiChatSend.disabled) {
-        sendMessage();
-    }
-});
+// ================================
+// QUICK ACTION BUTTONS
+// ================================
 
-// New Chat button
-if (newChatBtn) {
-    newChatBtn.addEventListener("click", () => {
-        startNewChat();
+document
+    .querySelectorAll(".ai-quick-buttons button")
+    .forEach((button) => {
+
+        button.addEventListener("click", () => {
+
+            const question =
+                button.textContent.trim();
+
+
+            if (!question || aiChatSend.disabled) {
+                return;
+            }
+
+
+            aiChatInput.value = question;
+
+
+            sendMessage();
+
+        });
+
     });
+
+
+// ================================
+// SEND BUTTON
+// ================================
+
+aiChatSend.addEventListener(
+    "click",
+    sendMessage
+);
+
+
+// ================================
+// ENTER KEY
+// ================================
+
+aiChatInput.addEventListener(
+    "keydown",
+    (event) => {
+
+        if (
+            event.key === "Enter" &&
+            !aiChatSend.disabled
+        ) {
+
+            sendMessage();
+
+        }
+
+    }
+);
+
+
+// ================================
+// NEW CHAT
+// ================================
+
+if (newChatBtn) {
+
+    newChatBtn.addEventListener(
+        "click",
+        () => {
+
+            startNewChat();
+
+        }
+    );
+
 }
 
-// Initialize saved chat
+
+// ================================
+// LOAD SAVED CHAT
+// ================================
+
 loadChatHistory();

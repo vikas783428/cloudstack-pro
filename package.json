@@ -1,0 +1,23 @@
+{
+  "name": "cloudstack-pro",
+  "version": "1.0.0",
+  "description": "A modern B2B SaaS marketing website built using HTML5, CSS3, and JavaScript.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vikas783428/cloudstack-pro.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vikas783428/cloudstack-pro/issues"
+  },
+  "homepage": "https://github.com/vikas783428/cloudstack-pro#readme",
+  "dependencies": {
+    "razorpay": "^2.9.8"
+  }
+}

@@ -235,6 +235,35 @@
       <a href="https://digitalheroesco.com" target="_blank" rel="noopener noreferrer">Digital Heroes Training Task</a>
     </p>
   </footer>
+  <!-- Payment Result Modal -->
+  <div id="paymentResultModal" class="payment-result-modal" aria-hidden="true">
+    <div class="payment-result-card">
+      <button
+        type="button"
+        id="closePaymentResult"
+        class="payment-result-close"
+        aria-label="Close"
+      >
+        &times;
+      </button>
+
+      <div id="paymentResultIcon" class="payment-result-icon"></div>
+
+      <h2 id="paymentResultTitle">Payment Status</h2>
+
+      <p id="paymentResultMessage"></p>
+
+      <div id="paymentResultDetails" class="payment-result-details"></div>
+
+      <button
+        type="button"
+        id="paymentResultAction"
+        class="btn-primary"
+      >
+        Continue
+      </button>
+    </div>
+  </div>
   <button id="scrollTop" class="scroll-top">
     ↑
   </button>
@@ -253,4 +282,3 @@
 <script src="js/navbar.js"></script>
 </body>
 </html>
-

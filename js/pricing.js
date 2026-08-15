@@ -1,4 +1,94 @@
 document.addEventListener("DOMContentLoaded", () => {
+
+    // =========================================================
+    // Payment Result Modal
+    // =========================================================
+
+    const paymentModal =
+        document.getElementById("paymentResultModal");
+
+    const paymentCard =
+        paymentModal?.querySelector(".payment-result-card");
+
+    const paymentIcon =
+        document.getElementById("paymentResultIcon");
+
+    const paymentTitle =
+        document.getElementById("paymentResultTitle");
+
+    const paymentMessage =
+        document.getElementById("paymentResultMessage");
+
+    const paymentDetails =
+        document.getElementById("paymentResultDetails");
+
+    const paymentAction =
+        document.getElementById("paymentResultAction");
+
+    const paymentClose =
+        document.getElementById("closePaymentResult");
+
+    function closePaymentModal() {
+        if (!paymentModal) {
+            return;
+        }
+
+        paymentModal.classList.remove("show");
+        paymentModal.setAttribute("aria-hidden", "true");
+    }
+
+    function showPaymentResult(type, title, message, details = {}) {
+        if (!paymentModal || !paymentCard) {
+            return;
+        }
+
+        paymentCard.classList.remove("success", "failure");
+        paymentCard.classList.add(type);
+
+        paymentIcon.textContent =
+            type === "success" ? "SUCCESS" : "FAILED";
+
+        paymentTitle.textContent = title;
+        paymentMessage.textContent = message;
+
+        paymentDetails.innerHTML = "";
+
+        Object.entries(details).forEach(([label, value]) => {
+            const row = document.createElement("div");
+
+            row.className = "payment-result-detail";
+
+            row.innerHTML = `
+                <span>${label}</span>
+                <strong>${value}</strong>
+            `;
+
+            paymentDetails.appendChild(row);
+        });
+
+        paymentModal.classList.add("show");
+        paymentModal.setAttribute("aria-hidden", "false");
+    }
+
+    paymentClose?.addEventListener(
+        "click",
+        closePaymentModal
+    );
+
+    paymentAction?.addEventListener(
+        "click",
+        closePaymentModal
+    );
+
+    paymentModal?.addEventListener(
+        "click",
+        (event) => {
+            if (event.target === paymentModal) {
+                closePaymentModal();
+            }
+        }
+    );
+
     // Price toggle
     const toggle = document.getElementById("priceToggle");
     const prices = document.querySelectorAll(".price");
@@ -135,8 +225,15 @@ document.addEventListener("DOMContentLoaded", () => {
                                 verification
                             );
 
-                            alert(
-                                "Payment successful and verified! Thank you for choosing CloudStack Pro."
+                            showPaymentResult(
+                                "success",
+                                "Payment Successful",
+                                "Your payment has been verified successfully. Thank you for choosing CloudStack Pro.",
+                                {
+                                    "Plan": plan,
+                                    "Payment ID": verification.paymentId,
+                                    "Order ID": verification.orderId
+                                }
                             );
 
                         } catch (error) {
@@ -145,8 +242,14 @@ document.addEventListener("DOMContentLoaded", () => {
                                 error
                             );
 
-                            alert(
-                                "Payment was received, but verification could not be completed. Please contact support."
+                            showPaymentResult(
+                                "failure",
+                                "Payment Verification Failed",
+                                "We could not verify this payment. Please contact support if money was deducted.",
+                                {
+                                    "Plan": plan,
+                                    "Status": "Verification failed"
+                                }
                             );
                         }
                     },

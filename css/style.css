@@ -6584,3 +6584,134 @@ color:#fff;
 .ai-chat-input button {
     flex: 0 0 42px;
 }
+/* =========================================================
+   Payment Result Modal
+   ========================================================= */
+
+.payment-result-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(6px);
+}
+
+.payment-result-modal.show {
+    display: flex;
+}
+
+.payment-result-card {
+    position: relative;
+    width: min(460px, 100%);
+    padding: 40px 32px;
+    text-align: center;
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.25);
+    animation: paymentResultIn 0.25s ease-out;
+}
+
+.payment-result-close {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    border: 0;
+    background: transparent;
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+    opacity: 0.65;
+}
+
+.payment-result-close:hover {
+    opacity: 1;
+}
+
+.payment-result-icon {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 38px;
+    font-weight: 700;
+}
+
+.payment-result-card.success .payment-result-icon {
+    background: #dcfce7;
+    color: #16a34a;
+}
+
+.payment-result-card.failure .payment-result-icon {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.payment-result-card h2 {
+    margin: 0 0 10px;
+    font-size: 26px;
+}
+
+.payment-result-card > p {
+    margin: 0 0 24px;
+    line-height: 1.6;
+    opacity: 0.8;
+}
+
+.payment-result-details {
+    margin-bottom: 24px;
+    padding: 16px;
+    border-radius: 12px;
+    background: #f8fafc;
+    text-align: left;
+}
+
+.payment-result-detail {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 7px 0;
+    font-size: 14px;
+}
+
+.payment-result-detail strong {
+    word-break: break-all;
+    text-align: right;
+}
+
+.payment-result-card .btn-primary {
+    width: 100%;
+}
+
+@keyframes paymentResultIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px) scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@media (max-width: 480px) {
+    .payment-result-card {
+        padding: 32px 22px;
+    }
+
+    .payment-result-detail {
+        flex-direction: column;
+        gap: 3px;
+    }
+
+    .payment-result-detail strong {
+        text-align: left;
+    }
+}

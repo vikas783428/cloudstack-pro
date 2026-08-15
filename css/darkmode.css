@@ -1277,3 +1277,63 @@ body.dark .comparison .section-header p {
     margin-left: auto;
     margin-right: auto;
 }
+/* =========================================================
+   Payment Result Modal - Dark Mode
+   ========================================================= */
+
+body.dark .payment-result-modal {
+    background: rgba(0, 0, 0, 0.78) !important;
+}
+
+body.dark .payment-result-card {
+    background: #1e293b !important;
+    color: #f8fafc !important;
+    border: 1px solid #334155 !important;
+}
+
+body.dark .payment-result-card h2,
+body.dark .payment-result-title {
+    color: #f8fafc !important;
+}
+
+body.dark .payment-result-card p,
+body.dark .payment-result-message {
+    color: #cbd5e1 !important;
+    -webkit-text-fill-color: #cbd5e1 !important;
+}
+
+body.dark .payment-result-details {
+    background: #0f172a !important;
+    color: #f8fafc !important;
+}
+
+body.dark .payment-result-detail {
+    color: #cbd5e1 !important;
+    border-color: #334155 !important;
+}
+
+body.dark .payment-result-detail span {
+    color: #94a3b8 !important;
+}
+
+body.dark .payment-result-detail strong {
+    color: #f8fafc !important;
+}
+
+body.dark #closePaymentResult {
+    color: #cbd5e1 !important;
+}
+
+body.dark #closePaymentResult:hover {
+    color: #ffffff !important;
+    background: #334155 !important;
+}
+
+body.dark #paymentResultAction {
+    color: #ffffff !important;
+    background: #2563eb !important;
+}
+
+body.dark #paymentResultAction:hover {
+    background: #1d4ed8 !important;
+}

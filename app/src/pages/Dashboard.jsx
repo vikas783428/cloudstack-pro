@@ -1,6 +1,5 @@
 import { useState } from 'react'
-
-function Dashboard() {
+function Dashboard({ onNavigate }) {
   const [showConnectModal, setShowConnectModal] = useState(false)
   const [selectedProvider, setSelectedProvider] = useState(null)
   const [connectedProvider, setConnectedProvider] = useState('Azure')
@@ -42,16 +41,47 @@ function Dashboard() {
 
           {/* Navigation */}
           <nav className="flex-1 space-y-1 p-4">
-            <NavItem icon="⌂" label="Overview" active />
-            <NavItem icon="☁" label="Cloud Resources" />
-            <NavItem icon="◉" label="Monitoring" />
-            <NavItem icon="$" label="Billing" />
-            <NavItem icon="♟" label="Team" />
-            <NavItem icon="⚿" label="API Keys" />
+            <NavItem
+            icon="⌂"
+            label="Overview"
+            active
+            onClick={() => onNavigate('overview')}
+            />
+
+           <NavItem
+           icon="☁"
+           label="Cloud Resources"
+           onClick={() => onNavigate('cloud-resources')}
+           />
+
+           <NavItem
+           icon="◉"
+           label="Monitoring"
+           onClick={() => onNavigate('monitoring')}
+           />
+           <NavItem
+           icon="$"
+           label="Billing"
+           onClick={() => onNavigate('billing')}
+           />
+           <NavItem
+           icon="♟"
+           label="Team"
+           onClick={() => onNavigate('team')}
+           />
+           <NavItem
+           icon="⚿"
+           label="API Keys"
+           onClick={() => onNavigate('api-keys')}
+           />
 
             <div className="my-4 border-t border-slate-800" />
 
-            <NavItem icon="✦" label="AI DevOps" />
+            <NavItem
+            icon="✦"
+            label="AI DevOps"
+            onClick={() => onNavigate('ai-devops')}
+            />
           </nav>
 
           {/* Workspace */}
@@ -573,37 +603,6 @@ function Input({
     </div>
   )
 }
-
-/* -------------------------------- */
-/* Navigation */
-/* -------------------------------- */
-
-function NavItem({
-  icon,
-  label,
-  active,
-}) {
-  return (
-    <button
-      className={`flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition ${
-        active
-          ? 'bg-blue-600/10 text-blue-400'
-          : 'text-slate-400 hover:bg-slate-800 hover:text-white'
-      }`}
-    >
-
-      <span className="w-5 text-center">
-        {icon}
-      </span>
-
-      <span>
-        {label}
-      </span>
-
-    </button>
-  )
-}
-
 /* -------------------------------- */
 /* Stat Card */
 /* -------------------------------- */
@@ -668,6 +667,31 @@ function Setup({
       </div>
 
     </div>
+  )
+}
+function NavItem({
+  icon,
+  label,
+  active,
+  onClick,
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className={`flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition ${
+        active
+          ? 'bg-blue-600/10 text-blue-400'
+          : 'text-slate-400 hover:bg-slate-800 hover:text-white'
+      }`}
+    >
+      <span className="w-5 text-center">
+        {icon}
+      </span>
+
+      <span>
+        {label}
+      </span>
+    </button>
   )
 }
 

@@ -19,5 +19,8 @@
   "homepage": "https://github.com/vikas783428/cloudstack-pro#readme",
   "dependencies": {
     "razorpay": "^2.9.8"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.62.1"
   }
 }

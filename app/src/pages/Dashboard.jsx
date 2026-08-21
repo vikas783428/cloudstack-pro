@@ -1,4 +1,25 @@
+import { useState } from 'react'
+
 function Dashboard() {
+  const [showConnectModal, setShowConnectModal] = useState(false)
+  const [selectedProvider, setSelectedProvider] = useState(null)
+  const [connectedProvider, setConnectedProvider] = useState('Azure')
+
+  const connectProvider = () => {
+    if (!selectedProvider) return
+
+    setConnectedProvider(selectedProvider)
+    setShowConnectModal(false)
+    setSelectedProvider(null)
+  }
+
+  const closeModal = () => {
+    setShowConnectModal(false)
+    setSelectedProvider(null)
+  }
+
+  const providerConnected = Boolean(connectedProvider)
+
   return (
     <div className="min-h-screen bg-slate-950 text-white">
       <div className="flex min-h-screen">
@@ -21,7 +42,6 @@ function Dashboard() {
 
           {/* Navigation */}
           <nav className="flex-1 space-y-1 p-4">
-
             <NavItem icon="⌂" label="Overview" active />
             <NavItem icon="☁" label="Cloud Resources" />
             <NavItem icon="◉" label="Monitoring" />
@@ -32,7 +52,6 @@ function Dashboard() {
             <div className="my-4 border-t border-slate-800" />
 
             <NavItem icon="✦" label="AI DevOps" />
-
           </nav>
 
           {/* Workspace */}
@@ -72,7 +91,10 @@ function Dashboard() {
 
             <div className="flex items-center gap-3">
 
-              <button className="hidden rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold transition hover:bg-blue-500 sm:block">
+              <button
+                onClick={() => setShowConnectModal(true)}
+                className="hidden rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold transition hover:bg-blue-500 sm:block"
+              >
                 + Connect Cloud
               </button>
 
@@ -84,7 +106,7 @@ function Dashboard() {
 
           </header>
 
-          {/* Dashboard content */}
+          {/* Dashboard Content */}
           <div className="p-5 sm:p-6">
 
             <div className="mx-auto max-w-7xl">
@@ -100,19 +122,56 @@ function Dashboard() {
                 </p>
               </div>
 
+              {/* Connected Cloud */}
+              {providerConnected && (
+                <div className="mb-6 flex items-center justify-between rounded-2xl border border-blue-500/20 bg-blue-500/5 p-4">
+
+                  <div className="flex items-center gap-3">
+
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600">
+                      ☁
+                    </div>
+
+                    <div>
+                      <p className="text-sm font-semibold">
+                        {connectedProvider} connected
+                      </p>
+
+                      <p className="text-xs text-slate-400">
+                        Your cloud account is ready to be managed.
+                      </p>
+                    </div>
+
+                  </div>
+
+                  <span className="rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-400">
+                    Connected
+                  </span>
+
+                </div>
+              )}
+
               {/* Stats */}
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
 
                 <Stat
                   title="Cloud Resources"
-                  value="0"
-                  text="No resources connected"
+                  value={providerConnected ? '12' : '0'}
+                  text={
+                    providerConnected
+                      ? 'Resources discovered'
+                      : 'No resources connected'
+                  }
                 />
 
                 <Stat
                   title="Active Services"
-                  value="0"
-                  text="Everything is quiet"
+                  value={providerConnected ? '4' : '0'}
+                  text={
+                    providerConnected
+                      ? 'Services running'
+                      : 'Everything is quiet'
+                  }
                 />
 
                 <Stat
@@ -129,10 +188,10 @@ function Dashboard() {
 
               </div>
 
-              {/* Main cards */}
+              {/* Main Cards */}
               <div className="mt-6 grid gap-6 lg:grid-cols-3">
 
-                {/* Getting started */}
+                {/* Getting Started */}
                 <div className="rounded-2xl border border-slate-800 bg-slate-900 p-6 lg:col-span-2">
 
                   <div className="flex items-start justify-between">
@@ -149,7 +208,7 @@ function Dashboard() {
                     </div>
 
                     <span className="rounded-full bg-blue-500/10 px-3 py-1 text-xs font-medium text-blue-400">
-                      0 / 4
+                      {providerConnected ? '2 / 4' : '1 / 4'}
                     </span>
 
                   </div>
@@ -157,15 +216,21 @@ function Dashboard() {
                   <div className="mt-6 space-y-3">
 
                     <Setup
-                      number="1"
+                      number="✓"
                       title="Create your workspace"
                       description="Set up your CloudStack workspace."
+                      completed
                     />
 
                     <Setup
-                      number="2"
+                      number={providerConnected ? '✓' : '2'}
                       title="Connect a cloud provider"
-                      description="Connect AWS, Azure, or Google Cloud."
+                      description={
+                        providerConnected
+                          ? `${connectedProvider} account connected successfully.`
+                          : 'Connect AWS, Azure, or Google Cloud.'
+                      }
+                      completed={providerConnected}
                     />
 
                     <Setup
@@ -184,7 +249,7 @@ function Dashboard() {
 
                 </div>
 
-                {/* AI */}
+                {/* AI Assistant */}
                 <div className="rounded-2xl border border-blue-500/20 bg-gradient-to-br from-blue-600/10 to-purple-600/10 p-6">
 
                   <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-600 text-lg">
@@ -208,7 +273,7 @@ function Dashboard() {
 
               </div>
 
-              {/* Activity */}
+              {/* Recent Activity */}
               <div className="mt-6 rounded-2xl border border-slate-800 bg-slate-900 p-6">
 
                 <h3 className="text-lg font-semibold">
@@ -218,7 +283,10 @@ function Dashboard() {
                 <div className="flex min-h-32 items-center justify-center">
 
                   <div className="text-center">
-                    <div className="text-2xl">◌</div>
+
+                    <div className="text-2xl">
+                      ◌
+                    </div>
 
                     <p className="mt-2 text-sm text-slate-500">
                       No activity yet
@@ -227,6 +295,7 @@ function Dashboard() {
                     <p className="mt-1 text-xs text-slate-600">
                       Your infrastructure activity will appear here.
                     </p>
+
                   </div>
 
                 </div>
@@ -240,11 +309,280 @@ function Dashboard() {
         </main>
 
       </div>
+
+      {/* Connect Cloud Modal */}
+      {showConnectModal && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) {
+              closeModal()
+            }
+          }}
+        >
+
+          <div className="w-full max-w-lg rounded-2xl border border-slate-800 bg-slate-900 p-6 shadow-2xl">
+
+            {/* Provider Selection */}
+            {!selectedProvider ? (
+              <>
+                <div className="flex items-start justify-between">
+
+                  <div>
+                    <h2 className="text-xl font-bold">
+                      Connect Cloud Provider
+                    </h2>
+
+                    <p className="mt-1 text-sm text-slate-400">
+                      Choose a cloud provider to connect.
+                    </p>
+                  </div>
+
+                  <button
+                    onClick={closeModal}
+                    className="text-slate-500 transition hover:text-white"
+                  >
+                    ✕
+                  </button>
+
+                </div>
+
+                <div className="mt-6 space-y-3">
+
+                  <Provider
+                    icon="☁"
+                    name="Amazon Web Services"
+                    label="AWS"
+                    onClick={() => setSelectedProvider('AWS')}
+                  />
+
+                  <Provider
+                    icon="▣"
+                    name="Microsoft Azure"
+                    label="Azure"
+                    onClick={() => setSelectedProvider('Azure')}
+                  />
+
+                  <Provider
+                    icon="◉"
+                    name="Google Cloud Platform"
+                    label="Google Cloud"
+                    onClick={() => setSelectedProvider('Google Cloud')}
+                  />
+
+                </div>
+              </>
+
+            ) : (
+
+              /* Provider Form */
+              <>
+                <div className="flex items-start justify-between">
+
+                  <div>
+                    <h2 className="text-xl font-bold">
+                      Connect {selectedProvider}
+                    </h2>
+
+                    <p className="mt-1 text-sm text-slate-400">
+                      Enter your cloud connection details.
+                    </p>
+                  </div>
+
+                  <button
+                    onClick={closeModal}
+                    className="text-slate-500 transition hover:text-white"
+                  >
+                    ✕
+                  </button>
+
+                </div>
+
+                <div className="mt-6 space-y-4">
+
+                  {/* AWS */}
+                  {selectedProvider === 'AWS' && (
+                    <>
+                      <Input
+                        label="AWS Account ID"
+                        placeholder="Enter 12-digit AWS account ID"
+                      />
+
+                      <Input
+                        label="Access Key ID"
+                        placeholder="Enter AWS access key ID"
+                      />
+
+                      <Input
+                        label="Secret Access Key"
+                        placeholder="Enter AWS secret access key"
+                        type="password"
+                      />
+
+                      <Input
+                        label="AWS Region"
+                        placeholder="e.g. ap-south-1"
+                      />
+                    </>
+                  )}
+
+                  {/* Azure */}
+                  {selectedProvider === 'Azure' && (
+                    <>
+                      <Input
+                        label="Subscription ID"
+                        placeholder="Enter Azure subscription ID"
+                      />
+
+                      <Input
+                        label="Tenant ID"
+                        placeholder="Enter Azure tenant ID"
+                      />
+
+                      <Input
+                        label="Client ID"
+                        placeholder="Enter Azure client ID"
+                      />
+
+                      <Input
+                        label="Client Secret"
+                        placeholder="Enter Azure client secret"
+                        type="password"
+                      />
+                    </>
+                  )}
+
+                  {/* Google Cloud */}
+                  {selectedProvider === 'Google Cloud' && (
+                    <>
+                      <Input
+                        label="Project ID"
+                        placeholder="Enter Google Cloud project ID"
+                      />
+
+                      <Input
+                        label="Service Account Email"
+                        placeholder="Enter service account email"
+                      />
+
+                      <Input
+                        label="Private Key"
+                        placeholder="Enter service account private key"
+                        type="password"
+                      />
+
+                      <Input
+                        label="Region"
+                        placeholder="e.g. asia-south1"
+                      />
+                    </>
+                  )}
+
+                </div>
+
+                {/* Buttons */}
+                <div className="mt-6 flex gap-3">
+
+                  <button
+                    onClick={() => setSelectedProvider(null)}
+                    className="flex-1 rounded-xl border border-slate-700 px-4 py-3 text-sm font-semibold transition hover:bg-slate-800"
+                  >
+                    Back
+                  </button>
+
+                  <button
+                    onClick={connectProvider}
+                    className="flex-1 rounded-xl bg-blue-600 px-4 py-3 text-sm font-semibold transition hover:bg-blue-500"
+                  >
+                    Connect {selectedProvider}
+                  </button>
+
+                </div>
+
+                <p className="mt-4 text-center text-xs text-slate-600">
+                  Demo mode — credentials are not sent anywhere.
+                </p>
+
+              </>
+            )}
+
+          </div>
+
+        </div>
+      )}
+
     </div>
   )
 }
 
-function NavItem({ icon, label, active }) {
+/* -------------------------------- */
+/* Provider Component */
+/* -------------------------------- */
+
+function Provider({ icon, name, label, onClick }) {
+  return (
+    <button
+      onClick={onClick}
+      className="flex w-full items-center gap-4 rounded-xl border border-slate-800 bg-slate-950 p-4 text-left transition hover:border-blue-500/50 hover:bg-slate-800"
+    >
+
+      <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-600/10 text-xl text-blue-400">
+        {icon}
+      </div>
+
+      <div>
+        <p className="font-semibold">
+          {label}
+        </p>
+
+        <p className="mt-1 text-xs text-slate-500">
+          {name}
+        </p>
+      </div>
+
+      <span className="ml-auto text-slate-500">
+        →
+      </span>
+
+    </button>
+  )
+}
+
+/* -------------------------------- */
+/* Input Component */
+/* -------------------------------- */
+
+function Input({
+  label,
+  placeholder,
+  type = 'text',
+}) {
+  return (
+    <div>
+
+      <label className="mb-2 block text-xs font-medium text-slate-400">
+        {label}
+      </label>
+
+      <input
+        type={type}
+        placeholder={placeholder}
+        className="w-full rounded-xl border border-slate-800 bg-slate-950 px-4 py-3 text-sm text-white outline-none placeholder:text-slate-600 transition focus:border-blue-500 focus:ring-1 focus:ring-blue-500/30"
+      />
+
+    </div>
+  )
+}
+
+/* -------------------------------- */
+/* Navigation */
+/* -------------------------------- */
+
+function NavItem({
+  icon,
+  label,
+  active,
+}) {
   return (
     <button
       className={`flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition ${
@@ -253,16 +591,28 @@ function NavItem({ icon, label, active }) {
           : 'text-slate-400 hover:bg-slate-800 hover:text-white'
       }`}
     >
+
       <span className="w-5 text-center">
         {icon}
       </span>
 
-      <span>{label}</span>
+      <span>
+        {label}
+      </span>
+
     </button>
   )
 }
 
-function Stat({ title, value, text }) {
+/* -------------------------------- */
+/* Stat Card */
+/* -------------------------------- */
+
+function Stat({
+  title,
+  value,
+  text,
+}) {
   return (
     <div className="rounded-2xl border border-slate-800 bg-slate-900 p-5">
 
@@ -282,15 +632,31 @@ function Stat({ title, value, text }) {
   )
 }
 
-function Setup({ number, title, description }) {
+/* -------------------------------- */
+/* Setup Step */
+/* -------------------------------- */
+
+function Setup({
+  number,
+  title,
+  description,
+  completed = false,
+}) {
   return (
     <div className="flex items-center gap-4 rounded-xl border border-slate-800 bg-slate-950/50 p-4">
 
-      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-slate-800 text-sm font-semibold">
+      <div
+        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-sm font-semibold ${
+          completed
+            ? 'bg-emerald-500/10 text-emerald-400'
+            : 'bg-slate-800 text-white'
+        }`}
+      >
         {number}
       </div>
 
       <div>
+
         <p className="text-sm font-semibold">
           {title}
         </p>
@@ -298,6 +664,7 @@ function Setup({ number, title, description }) {
         <p className="mt-1 text-xs text-slate-500">
           {description}
         </p>
+
       </div>
 
     </div>

@@ -1,15 +1,79 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import {
+  checkBackendHealth,
+  connectCloudProvider,
+  getCloudConnection,
+  getCloudResources,
+} from '../lib/api'
+
 function Dashboard({ onNavigate }) {
   const [showConnectModal, setShowConnectModal] = useState(false)
   const [selectedProvider, setSelectedProvider] = useState(null)
-  const [connectedProvider, setConnectedProvider] = useState('Azure')
+  const [connectedProvider, setConnectedProvider] = useState(null)
+  const [backendStatus, setBackendStatus] = useState('Checking...')
+  const [cloudResources, setCloudResources] = useState([])
+  const [resources, setResources] = useState([])
+  const [resourcesLoading, setResourcesLoading] = useState(true)
 
-  const connectProvider = () => {
+  // Check backend + load cloud connection + load resources
+  useEffect(() => {
+    checkBackendHealth()
+      .then((data) => {
+        if (data.success) {
+          setBackendStatus(data.message)
+        } else {
+          setBackendStatus('Backend connection failed')
+        }
+      })
+      .catch(() => {
+        setBackendStatus('Backend connection failed')
+      })
+
+    getCloudConnection()
+      .then((data) => {
+        if (data.success && data.connection) {
+          setConnectedProvider(data.connection.provider)
+        }
+      })
+      .catch((error) => {
+        console.error('Failed to load cloud connection:', error)
+      })
+
+    getCloudResources()
+      .then((data) => {
+        console.log('Dashboard resources API response:', data)
+
+        if (data.success && Array.isArray(data.resources)) {
+          setResources(data.resources)
+        } else {
+          setResources([])
+        }
+      })
+      .catch((error) => {
+        console.error('Failed to load dashboard resources:', error)
+        setResources([])
+      })
+      .finally(() => {
+        setResourcesLoading(false)
+      })
+  }, [])
+
+  // Connect cloud provider
+  const connectProvider = async () => {
     if (!selectedProvider) return
 
-    setConnectedProvider(selectedProvider)
-    setShowConnectModal(false)
-    setSelectedProvider(null)
+    try {
+      const data = await connectCloudProvider(selectedProvider)
+
+      if (data.success && data.connection) {
+        setConnectedProvider(data.connection.provider)
+        setShowConnectModal(false)
+        setSelectedProvider(null)
+      }
+    } catch (error) {
+      console.error('Cloud connection failed:', error)
+      alert(error.message)
+    }
   }
 
   const closeModal = () => {
@@ -18,6 +82,13 @@ function Dashboard({ onNavigate }) {
   }
 
   const providerConnected = Boolean(connectedProvider)
+
+  // Real resource statistics
+  const totalResources = resources.length
+
+  const activeServices = resources.filter(
+    (resource) => resource.status === 'Running'
+  ).length
 
   return (
     <div className="min-h-screen bg-slate-950 text-white">
@@ -41,47 +112,52 @@ function Dashboard({ onNavigate }) {
 
           {/* Navigation */}
           <nav className="flex-1 space-y-1 p-4">
+
             <NavItem
-            icon="⌂"
-            label="Overview"
-            active
-            onClick={() => onNavigate('overview')}
+              icon="⌂"
+              label="Overview"
+              active
+              onClick={() => onNavigate('overview')}
             />
 
-           <NavItem
-           icon="☁"
-           label="Cloud Resources"
-           onClick={() => onNavigate('cloud-resources')}
-           />
+            <NavItem
+              icon="☁"
+              label="Cloud Resources"
+              onClick={() => onNavigate('cloud-resources')}
+            />
 
-           <NavItem
-           icon="◉"
-           label="Monitoring"
-           onClick={() => onNavigate('monitoring')}
-           />
-           <NavItem
-           icon="$"
-           label="Billing"
-           onClick={() => onNavigate('billing')}
-           />
-           <NavItem
-           icon="♟"
-           label="Team"
-           onClick={() => onNavigate('team')}
-           />
-           <NavItem
-           icon="⚿"
-           label="API Keys"
-           onClick={() => onNavigate('api-keys')}
-           />
+            <NavItem
+              icon="◉"
+              label="Monitoring"
+              onClick={() => onNavigate('monitoring')}
+            />
+
+            <NavItem
+              icon="$"
+              label="Billing"
+              onClick={() => onNavigate('billing')}
+            />
+
+            <NavItem
+              icon="♟"
+              label="Team"
+              onClick={() => onNavigate('team')}
+            />
+
+            <NavItem
+              icon="⚿"
+              label="API Keys"
+              onClick={() => onNavigate('api-keys')}
+            />
 
             <div className="my-4 border-t border-slate-800" />
 
             <NavItem
-            icon="✦"
-            label="AI DevOps"
-            onClick={() => onNavigate('ai-devops')}
+              icon="✦"
+              label="AI DevOps"
+              onClick={() => onNavigate('ai-devops')}
             />
+
           </nav>
 
           {/* Workspace */}
@@ -143,6 +219,7 @@ function Dashboard({ onNavigate }) {
 
               {/* Welcome */}
               <div className="mb-7">
+
                 <h2 className="text-2xl font-bold">
                   Good evening, Vikas 👋
                 </h2>
@@ -150,6 +227,30 @@ function Dashboard({ onNavigate }) {
                 <p className="mt-1 text-sm text-slate-400">
                   Here's what's happening with your infrastructure.
                 </p>
+
+                {/* API Status */}
+                <div className="mt-4 inline-flex items-center gap-2 rounded-lg border border-slate-800 bg-slate-900 px-3 py-2 text-xs">
+
+                  <span
+                    className={`h-2 w-2 rounded-full ${
+                      backendStatus === 'CloudStack Pro API is running'
+                        ? 'bg-emerald-400'
+                        : backendStatus === 'Checking...'
+                          ? 'bg-yellow-400'
+                          : 'bg-red-400'
+                    }`}
+                  />
+
+                  <span className="text-slate-400">
+                    API:
+                  </span>
+
+                  <span className="font-medium text-white">
+                    {backendStatus}
+                  </span>
+
+                </div>
+
               </div>
 
               {/* Connected Cloud */}
@@ -186,9 +287,13 @@ function Dashboard({ onNavigate }) {
 
                 <Stat
                   title="Cloud Resources"
-                  value={providerConnected ? '12' : '0'}
+                  value={
+                    resourcesLoading
+                      ? '...'
+                      : totalResources
+                  }
                   text={
-                    providerConnected
+                    totalResources > 0
                       ? 'Resources discovered'
                       : 'No resources connected'
                   }
@@ -196,9 +301,13 @@ function Dashboard({ onNavigate }) {
 
                 <Stat
                   title="Active Services"
-                  value={providerConnected ? '4' : '0'}
+                  value={
+                    resourcesLoading
+                      ? '...'
+                      : activeServices
+                  }
                   text={
-                    providerConnected
+                    activeServices > 0
                       ? 'Services running'
                       : 'Everything is quiet'
                   }
@@ -295,7 +404,10 @@ function Dashboard({ onNavigate }) {
                     optimize cloud costs with AI.
                   </p>
 
-                  <button className="mt-6 w-full rounded-xl bg-blue-600 px-4 py-3 text-sm font-semibold transition hover:bg-blue-500">
+                  <button
+                    onClick={() => onNavigate('ai-devops')}
+                    className="mt-6 w-full rounded-xl bg-blue-600 px-4 py-3 text-sm font-semibold transition hover:bg-blue-500"
+                  >
                     Open AI Assistant
                   </button>
 
@@ -545,9 +657,7 @@ function Dashboard({ onNavigate }) {
   )
 }
 
-/* -------------------------------- */
 /* Provider Component */
-/* -------------------------------- */
 
 function Provider({ icon, name, label, onClick }) {
   return (
@@ -578,9 +688,7 @@ function Provider({ icon, name, label, onClick }) {
   )
 }
 
-/* -------------------------------- */
 /* Input Component */
-/* -------------------------------- */
 
 function Input({
   label,
@@ -603,9 +711,8 @@ function Input({
     </div>
   )
 }
-/* -------------------------------- */
+
 /* Stat Card */
-/* -------------------------------- */
 
 function Stat({
   title,
@@ -631,9 +738,7 @@ function Stat({
   )
 }
 
-/* -------------------------------- */
 /* Setup Step */
-/* -------------------------------- */
 
 function Setup({
   number,
@@ -669,6 +774,9 @@ function Setup({
     </div>
   )
 }
+
+/* Navigation Item */
+
 function NavItem({
   icon,
   label,
@@ -684,6 +792,7 @@ function NavItem({
           : 'text-slate-400 hover:bg-slate-800 hover:text-white'
       }`}
     >
+
       <span className="w-5 text-center">
         {icon}
       </span>
@@ -691,6 +800,7 @@ function NavItem({
       <span>
         {label}
       </span>
+
     </button>
   )
 }

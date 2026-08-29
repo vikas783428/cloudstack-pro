@@ -1,11 +1,350 @@
+import { useEffect, useState } from 'react'
+
 function Billing({ onNavigate }) {
+  const [billing, setBilling] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+
+  // Razorpay / payment states
+  const [paymentLoading, setPaymentLoading] = useState(false)
+  const [paymentSuccess, setPaymentSuccess] = useState(null)
+
+  // --------------------------------
+  // Razorpay Upgrade
+  // --------------------------------
+
+  const handleUpgrade = async (planName) => {
+    try {
+      setPaymentLoading(true)
+
+      // Create Razorpay order
+      const response = await fetch(
+        'http://localhost:5000/api/payment/create-order',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            plan: planName,
+          }),
+        }
+      )
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(
+          data.error || 'Unable to create payment order'
+        )
+      }
+
+      console.log('Razorpay order created:', data)
+
+      // Razorpay checkout options
+      const options = {
+        key: 'rzp_test_TOAarLLImu64LT',
+
+        amount: data.amount,
+
+        currency: data.currency,
+
+        name: 'CloudStack Pro',
+
+        description: `${data.plan} Plan`,
+
+        order_id: data.orderId,
+
+        handler: async function (razorpayResponse) {
+          try {
+            console.log(
+              'Razorpay payment response:',
+              razorpayResponse
+            )
+
+            // Verify payment on backend
+            const verifyResponse = await fetch(
+              'http://localhost:5000/api/payment/verify',
+              {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  razorpay_order_id:
+                    razorpayResponse.razorpay_order_id,
+
+                  razorpay_payment_id:
+                    razorpayResponse.razorpay_payment_id,
+
+                  razorpay_signature:
+                    razorpayResponse.razorpay_signature,
+                }),
+              }
+            )
+
+            const verifyData = await verifyResponse.json()
+
+            console.log(
+              'Payment verification result:',
+              verifyData
+            )
+
+            if (!verifyResponse.ok || !verifyData.success) {
+              throw new Error(
+                verifyData.error ||
+                  'Payment verification failed'
+              )
+            }
+
+            // --------------------------------
+            // Payment successfully verified
+            // --------------------------------
+
+            setPaymentSuccess({
+              plan: data.plan,
+              paymentId:
+                razorpayResponse.razorpay_payment_id,
+              orderId:
+                razorpayResponse.razorpay_order_id,
+            })
+
+          } catch (error) {
+            console.error(
+              'Payment verification error:',
+              error
+            )
+
+            alert(error.message)
+          } finally {
+            setPaymentLoading(false)
+          }
+        },
+
+        modal: {
+          ondismiss: function () {
+            console.log('Razorpay checkout closed')
+            setPaymentLoading(false)
+          },
+        },
+
+        theme: {
+          color: '#2563eb',
+        },
+      }
+
+      // Check Razorpay loaded
+      if (!window.Razorpay) {
+        throw new Error(
+          'Razorpay checkout is not loaded. Please check app/index.html.'
+        )
+      }
+
+      const razorpay = new window.Razorpay(options)
+
+      razorpay.on('payment.failed', function (response) {
+        console.error(
+          'Razorpay payment failed:',
+          response.error
+        )
+
+        setPaymentLoading(false)
+
+        alert(
+          response.error?.description ||
+            'Payment failed. Please try again.'
+        )
+      })
+
+      razorpay.open()
+
+    } catch (error) {
+      console.error('Payment error:', error)
+
+      setPaymentLoading(false)
+
+      alert(error.message)
+    }
+  }
+
+  // --------------------------------
+  // Get Billing Data
+  // --------------------------------
+
+  useEffect(() => {
+    const fetchBilling = async () => {
+      try {
+        setLoading(true)
+        setError('')
+
+        const response = await fetch(
+          'http://localhost:5000/api/billing'
+        )
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch billing data')
+        }
+
+        const data = await response.json()
+
+        if (!data.success) {
+          throw new Error(
+            data.message || 'Failed to load billing'
+          )
+        }
+
+        setBilling(data.billing)
+      } catch (err) {
+        console.error('Billing API error:', err)
+
+        setError(
+          'Unable to load billing information.'
+        )
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchBilling()
+  }, [])
+
+  // --------------------------------
+  // Loading
+  // --------------------------------
+
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-slate-950 text-white">
+        <div className="text-center">
+
+          <div className="mx-auto h-8 w-8 animate-spin rounded-full border-2 border-slate-700 border-t-blue-500" />
+
+          <p className="mt-4 text-sm text-slate-400">
+            Loading billing information...
+          </p>
+
+        </div>
+      </div>
+    )
+  }
+
+  // --------------------------------
+  // Error
+  // --------------------------------
+
+  if (error || !billing) {
+    return (
+      <div className="min-h-screen bg-slate-950 text-white">
+
+        <header className="flex min-h-16 items-center justify-between border-b border-slate-800 bg-slate-900/60 px-5 sm:px-6">
+
+          <div>
+
+            <p className="text-xs text-slate-500">
+              WORKSPACE
+            </p>
+
+            <div className="flex items-center gap-3">
+
+              <button
+                onClick={() => onNavigate('overview')}
+                className="text-slate-400 transition hover:text-white"
+              >
+                ←
+              </button>
+
+              <h1 className="text-lg font-semibold">
+                Billing
+              </h1>
+
+            </div>
+
+          </div>
+
+          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-blue-600 text-sm font-bold">
+            V
+          </div>
+
+        </header>
+
+        <main className="flex items-center justify-center p-6">
+
+          <div className="rounded-2xl border border-red-500/20 bg-red-500/5 p-8 text-center">
+
+            <p className="text-sm font-semibold text-red-400">
+              Billing unavailable
+            </p>
+
+            <p className="mt-2 text-sm text-slate-500">
+              {error ||
+                'Unable to load billing information.'}
+            </p>
+
+            <button
+              onClick={() => window.location.reload()}
+              className="mt-5 rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold transition hover:bg-blue-500"
+            >
+              Try Again
+            </button>
+
+          </div>
+
+        </main>
+
+      </div>
+    )
+  }
+
+  const {
+    plan,
+    usage,
+    cloudCost,
+    paymentMethod,
+    billingHistory,
+  } = billing
+
+  const cloudResourcesPercentage = Math.round(
+    (usage.cloudResources.used /
+      usage.cloudResources.limit) *
+      100
+  )
+
+  const teamMembersPercentage = Math.round(
+    (usage.teamMembers.used /
+      usage.teamMembers.limit) *
+      100
+  )
+
+  const apiRequestsPercentage = Math.round(
+    (usage.apiRequests.used /
+      usage.apiRequests.limit) *
+      100
+  )
+
+  const aiRequestsPercentage = Math.round(
+    (usage.aiRequests.used /
+      usage.aiRequests.limit) *
+      100
+  )
+
+  const cloudCostPercentage =
+    cloudCost.budget > 0
+      ? Math.round(
+          (cloudCost.current /
+            cloudCost.budget) *
+            100
+        )
+      : 0
+
   return (
     <div className="min-h-screen bg-slate-950 text-white">
 
       {/* Header */}
+
       <header className="flex min-h-16 items-center justify-between border-b border-slate-800 bg-slate-900/60 px-5 sm:px-6">
 
         <div>
+
           <p className="text-xs text-slate-500">
             WORKSPACE
           </p>
@@ -24,6 +363,7 @@ function Billing({ onNavigate }) {
             </h1>
 
           </div>
+
         </div>
 
         <div className="flex h-9 w-9 items-center justify-center rounded-full bg-blue-600 text-sm font-bold">
@@ -33,11 +373,13 @@ function Billing({ onNavigate }) {
       </header>
 
       {/* Main */}
+
       <main className="p-5 sm:p-6">
 
         <div className="mx-auto max-w-7xl">
 
           {/* Intro */}
+
           <div className="mb-7">
 
             <h2 className="text-2xl font-bold">
@@ -50,7 +392,8 @@ function Billing({ onNavigate }) {
 
           </div>
 
-          {/* Current plan */}
+          {/* Current Plan */}
+
           <div className="grid gap-6 lg:grid-cols-3">
 
             <div className="rounded-2xl border border-blue-500/20 bg-gradient-to-br from-blue-600/10 to-purple-600/10 p-6 lg:col-span-2">
@@ -62,11 +405,13 @@ function Billing({ onNavigate }) {
                   <div className="flex items-center gap-3">
 
                     <h3 className="text-xl font-bold">
-                      Free Plan
+                      {plan.name}
                     </h3>
 
                     <span className="rounded-full bg-blue-500/10 px-3 py-1 text-xs font-medium text-blue-400">
-                      Current Plan
+                      {plan.status === 'current'
+                        ? 'Current Plan'
+                        : plan.status}
                     </span>
 
                   </div>
@@ -81,11 +426,11 @@ function Billing({ onNavigate }) {
                 <div className="text-left sm:text-right">
 
                   <p className="text-3xl font-bold">
-                    $0
+                    ${plan.price}
                   </p>
 
                   <p className="text-xs text-slate-500">
-                    per month
+                    per {plan.interval}
                   </p>
 
                 </div>
@@ -111,6 +456,7 @@ function Billing({ onNavigate }) {
             </div>
 
             {/* Upgrade */}
+
             <div className="rounded-2xl border border-slate-800 bg-slate-900 p-6">
 
               <p className="text-sm font-medium text-slate-400">
@@ -127,9 +473,13 @@ function Billing({ onNavigate }) {
               </p>
 
               <button
-                className="mt-6 w-full rounded-xl bg-blue-600 px-4 py-3 text-sm font-semibold transition hover:bg-blue-500"
+                onClick={() => handleUpgrade('Starter')}
+                disabled={paymentLoading}
+                className="mt-6 w-full rounded-xl bg-blue-600 px-4 py-3 text-sm font-semibold transition hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-60"
               >
-                Upgrade Plan
+                {paymentLoading
+                  ? 'Processing...'
+                  : 'Upgrade Plan'}
               </button>
 
             </div>
@@ -137,6 +487,7 @@ function Billing({ onNavigate }) {
           </div>
 
           {/* Usage */}
+
           <div className="mt-6">
 
             <h3 className="mb-4 text-lg font-semibold">
@@ -147,37 +498,38 @@ function Billing({ onNavigate }) {
 
               <UsageCard
                 title="Cloud Resources"
-                value="12"
-                limit="25"
-                percentage={48}
+                value={usage.cloudResources.used}
+                limit={usage.cloudResources.limit}
+                percentage={cloudResourcesPercentage}
               />
 
               <UsageCard
                 title="Team Members"
-                value="1"
-                limit="3"
-                percentage={33}
+                value={usage.teamMembers.used}
+                limit={usage.teamMembers.limit}
+                percentage={teamMembersPercentage}
               />
 
               <UsageCard
                 title="API Requests"
-                value="1,240"
-                limit="10,000"
-                percentage={12}
+                value={usage.apiRequests.used.toLocaleString()}
+                limit={usage.apiRequests.limit.toLocaleString()}
+                percentage={apiRequestsPercentage}
               />
 
               <UsageCard
                 title="AI Requests"
-                value="18"
-                limit="100"
-                percentage={18}
+                value={usage.aiRequests.used}
+                limit={usage.aiRequests.limit}
+                percentage={aiRequestsPercentage}
               />
 
             </div>
 
           </div>
 
-          {/* Cost overview */}
+          {/* Cost */}
+
           <div className="mt-6 grid gap-6 lg:grid-cols-2">
 
             <div className="rounded-2xl border border-slate-800 bg-slate-900 p-6">
@@ -185,6 +537,7 @@ function Billing({ onNavigate }) {
               <div className="flex items-center justify-between">
 
                 <div>
+
                   <h3 className="font-semibold">
                     Cloud Cost
                   </h3>
@@ -192,6 +545,7 @@ function Billing({ onNavigate }) {
                   <p className="mt-1 text-xs text-slate-500">
                     Current billing cycle
                   </p>
+
                 </div>
 
                 <span className="rounded-lg bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-400">
@@ -201,14 +555,16 @@ function Billing({ onNavigate }) {
               </div>
 
               <p className="mt-6 text-4xl font-bold">
-                $0.00
+                ${cloudCost.current.toFixed(2)}
               </p>
 
               <div className="mt-5 h-2 overflow-hidden rounded-full bg-slate-800">
 
                 <div
                   className="h-full rounded-full bg-blue-500"
-                  style={{ width: '8%' }}
+                  style={{
+                    width: `${cloudCostPercentage}%`,
+                  }}
                 />
 
               </div>
@@ -216,11 +572,11 @@ function Billing({ onNavigate }) {
               <div className="mt-2 flex justify-between text-xs text-slate-500">
 
                 <span>
-                  $0 used
+                  ${cloudCost.current} used
                 </span>
 
                 <span>
-                  $100 budget
+                  ${cloudCost.budget} budget
                 </span>
 
               </div>
@@ -228,11 +584,13 @@ function Billing({ onNavigate }) {
             </div>
 
             {/* Payment */}
+
             <div className="rounded-2xl border border-slate-800 bg-slate-900 p-6">
 
               <div className="flex items-center justify-between">
 
                 <div>
+
                   <h3 className="font-semibold">
                     Payment Method
                   </h3>
@@ -240,10 +598,11 @@ function Billing({ onNavigate }) {
                   <p className="mt-1 text-xs text-slate-500">
                     Manage your payment details.
                   </p>
+
                 </div>
 
                 <span className="rounded-lg bg-slate-800 px-3 py-1 text-xs text-slate-400">
-                  Not added
+                  {paymentMethod.status}
                 </span>
 
               </div>
@@ -255,11 +614,15 @@ function Billing({ onNavigate }) {
                 </div>
 
                 <p className="mt-3 text-sm font-medium">
-                  No payment method
+                  {paymentMethod.added
+                    ? 'Payment method added'
+                    : 'No payment method'}
                 </p>
 
                 <p className="mt-1 text-xs text-slate-500">
-                  Add a payment method when you upgrade your plan.
+                  {paymentMethod.added
+                    ? 'Your payment method is ready for billing.'
+                    : 'Add a payment method when you upgrade your plan.'}
                 </p>
 
               </div>
@@ -268,7 +631,8 @@ function Billing({ onNavigate }) {
 
           </div>
 
-          {/* Billing history */}
+          {/* Billing History */}
+
           <div className="mt-6 rounded-2xl border border-slate-800 bg-slate-900">
 
             <div className="border-b border-slate-800 p-6">
@@ -285,32 +649,70 @@ function Billing({ onNavigate }) {
 
             <div className="p-6">
 
-              <div className="flex min-h-32 items-center justify-center">
+              {billingHistory.length === 0 ? (
 
-                <div className="text-center">
+                <div className="flex min-h-32 items-center justify-center">
 
-                  <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-xl bg-slate-800 text-slate-500">
-                    $
+                  <div className="text-center">
+
+                    <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-xl bg-slate-800 text-slate-500">
+                      $
+                    </div>
+
+                    <p className="mt-3 text-sm font-medium">
+                      No invoices yet
+                    </p>
+
+                    <p className="mt-1 text-xs text-slate-500">
+                      Your billing history will appear here after your
+                      first payment.
+                    </p>
+
                   </div>
-
-                  <p className="mt-3 text-sm font-medium">
-                    No invoices yet
-                  </p>
-
-                  <p className="mt-1 text-xs text-slate-500">
-                    Your billing history will appear here after your
-                    first payment.
-                  </p>
 
                 </div>
 
-              </div>
+              ) : (
+
+                <div className="space-y-3">
+
+                  {billingHistory.map((invoice) => (
+
+                    <div
+                      key={invoice.id}
+                      className="flex items-center justify-between rounded-xl border border-slate-800 bg-slate-950/50 p-4"
+                    >
+
+                      <div>
+
+                        <p className="text-sm font-medium">
+                          {invoice.description || 'Invoice'}
+                        </p>
+
+                        <p className="mt-1 text-xs text-slate-500">
+                          {invoice.date}
+                        </p>
+
+                      </div>
+
+                      <p className="text-sm font-semibold">
+                        ${invoice.amount}
+                      </p>
+
+                    </div>
+
+                  ))}
+
+                </div>
+
+              )}
 
             </div>
 
           </div>
 
-          {/* Razorpay notice */}
+          {/* Razorpay Notice */}
+
           <div className="mt-6 rounded-2xl border border-amber-500/20 bg-amber-500/5 p-5">
 
             <div className="flex gap-3">
@@ -322,13 +724,12 @@ function Billing({ onNavigate }) {
               <div>
 
                 <p className="text-sm font-semibold">
-                  Secure payments coming soon
+                  Secure payments
                 </p>
 
                 <p className="mt-1 text-xs leading-5 text-slate-500">
-                  CloudStack Pro will use Razorpay for secure subscription
-                  payments. Payment processing will be enabled when billing
-                  is connected to the production backend.
+                  Payments are securely processed and verified
+                  using Razorpay.
                 </p>
 
               </div>
@@ -341,9 +742,117 @@ function Billing({ onNavigate }) {
 
       </main>
 
+      {/* ========================================
+          PAYMENT SUCCESS MODAL
+          ======================================== */}
+
+      {paymentSuccess && (
+
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
+
+          <div className="relative w-full max-w-md rounded-2xl border border-slate-700 bg-white p-6 text-slate-900 shadow-2xl">
+
+            {/* Close */}
+
+            <button
+              onClick={() => setPaymentSuccess(null)}
+              className="absolute right-5 top-5 text-xl text-slate-500 transition hover:text-slate-900"
+            >
+              ×
+            </button>
+
+            {/* Success */}
+
+            <div className="text-center">
+
+              <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-emerald-100">
+
+                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500 text-3xl font-bold text-white">
+                  ✓
+                </div>
+
+              </div>
+
+              <h2 className="mt-5 text-3xl font-extrabold text-emerald-600">
+                SUCCESS
+              </h2>
+
+              <h3 className="mt-4 text-2xl font-bold text-slate-800">
+                Payment Successful
+              </h3>
+
+              <p className="mt-2 text-sm leading-6 text-slate-500">
+                Your payment has been verified successfully.
+                <br />
+                Thank you for choosing CloudStack Pro.
+              </p>
+
+            </div>
+
+            {/* Payment Details */}
+
+            <div className="mt-6 rounded-xl bg-slate-50 p-4">
+
+              <div className="flex items-center justify-between border-b border-slate-200 py-3">
+
+                <span className="text-sm text-slate-600">
+                  Plan
+                </span>
+
+                <span className="text-sm font-bold text-slate-800">
+                  {paymentSuccess.plan}
+                </span>
+
+              </div>
+
+              <div className="flex items-center justify-between border-b border-slate-200 py-3">
+
+                <span className="text-sm text-slate-600">
+                  Payment ID
+                </span>
+
+                <span className="max-w-[190px] truncate text-sm font-bold text-slate-800">
+                  {paymentSuccess.paymentId}
+                </span>
+
+              </div>
+
+              <div className="flex items-center justify-between py-3">
+
+                <span className="text-sm text-slate-600">
+                  Order ID
+                </span>
+
+                <span className="max-w-[190px] truncate text-sm font-bold text-slate-800">
+                  {paymentSuccess.orderId}
+                </span>
+
+              </div>
+
+            </div>
+
+            {/* Continue */}
+
+            <button
+              onClick={() => setPaymentSuccess(null)}
+              className="mt-5 w-full rounded-xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-blue-500"
+            >
+              Continue
+            </button>
+
+          </div>
+
+        </div>
+
+      )}
+
     </div>
   )
 }
+
+// --------------------------------
+// Usage Card
+// --------------------------------
 
 function UsageCard({
   title,
@@ -374,7 +883,9 @@ function UsageCard({
 
         <div
           className="h-full rounded-full bg-blue-500"
-          style={{ width: `${percentage}%` }}
+          style={{
+            width: `${percentage}%`,
+          }}
         />
 
       </div>

@@ -1,11 +1,16 @@
 import { useEffect, useMemo, useState } from 'react'
-import { getCloudResources } from '../lib/api'
+import {
+  getCloudResources,
+  performResourceAction,
+} from '../lib/api'
 
 function CloudResources({ onNavigate, onConnectCloud }) {
   const [provider, setProvider] = useState('All')
   const [type, setType] = useState('All')
   const [search, setSearch] = useState('')
   const [selectedResource, setSelectedResource] = useState(null)
+  const [actionLoading, setActionLoading] = useState(false)
+const [actionMessage, setActionMessage] = useState('')
 
   const [resources, setResources] = useState([])
   const [loading, setLoading] = useState(true)
@@ -73,6 +78,40 @@ function CloudResources({ onNavigate, onConnectCloud }) {
   const stoppedCount = resources.filter(
     (resource) => resource.status === 'Stopped'
   ).length
+  const handleResourceAction = async (action) => {
+  if (!selectedResource) return
+
+  try {
+    setActionLoading(true)
+    setActionMessage('')
+
+    const data = await performResourceAction(
+      selectedResource.id,
+      action
+    )
+
+    if (data.success && data.resource) {
+      setSelectedResource(data.resource)
+
+      setResources((currentResources) =>
+        currentResources.map((resource) =>
+          resource.id === data.resource.id
+            ? data.resource
+            : resource
+        )
+      )
+
+      setActionMessage(data.message)
+    } else {
+      setActionMessage('Resource action failed')
+    }
+  } catch (error) {
+    console.error('Resource action failed:', error)
+    setActionMessage(error.message || 'Resource action failed')
+  } finally {
+    setActionLoading(false)
+  }
+}
 
   return (
     <div className="min-h-screen bg-slate-950 text-white">
@@ -532,6 +571,53 @@ function CloudResources({ onNavigate, onConnectCloud }) {
             </div>
 
             <div className="mt-6 rounded-xl border border-blue-500/20 bg-blue-500/5 p-4">
+            <div className="mt-6">
+
+  <p className="mb-3 text-xs font-medium text-slate-400">
+    RESOURCE ACTIONS
+  </p>
+
+  <div className="grid grid-cols-3 gap-3">
+
+    <button
+      onClick={() => handleResourceAction('start')}
+      disabled={actionLoading}
+      className="rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-3 py-3 text-xs font-semibold text-emerald-400 transition hover:bg-emerald-500/20 disabled:cursor-not-allowed disabled:opacity-50"
+    >
+      ▶ Start
+    </button>
+
+    <button
+      onClick={() => handleResourceAction('stop')}
+      disabled={actionLoading}
+      className="rounded-xl border border-amber-500/20 bg-amber-500/10 px-3 py-3 text-xs font-semibold text-amber-400 transition hover:bg-amber-500/20 disabled:cursor-not-allowed disabled:opacity-50"
+    >
+      ■ Stop
+    </button>
+
+    <button
+      onClick={() => handleResourceAction('restart')}
+      disabled={actionLoading}
+      className="rounded-xl border border-blue-500/20 bg-blue-500/10 px-3 py-3 text-xs font-semibold text-blue-400 transition hover:bg-blue-500/20 disabled:cursor-not-allowed disabled:opacity-50"
+    >
+      ↻ Restart
+    </button>
+
+  </div>
+
+  {actionLoading && (
+    <p className="mt-3 text-center text-xs text-blue-400">
+      Processing resource action...
+    </p>
+  )}
+
+  {actionMessage && !actionLoading && (
+    <p className="mt-3 rounded-lg bg-slate-950 px-3 py-2 text-center text-xs text-emerald-400">
+      {actionMessage}
+    </p>
+  )}
+
+</div>
 
               <p className="text-sm font-medium">
                 Demo resource

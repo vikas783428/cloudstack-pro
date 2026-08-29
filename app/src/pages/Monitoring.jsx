@@ -1,84 +1,96 @@
-import { useMemo, useState } from 'react'
-
-const metrics = [
-  {
-    name: 'web-server-prod',
-    provider: 'Azure',
-    status: 'Healthy',
-    cpu: 34,
-    memory: 58,
-    network: 72,
-  },
-  {
-    name: 'api-server',
-    provider: 'Azure',
-    status: 'Healthy',
-    cpu: 47,
-    memory: 64,
-    network: 54,
-  },
-  {
-    name: 'database-prod',
-    provider: 'Azure',
-    status: 'Healthy',
-    cpu: 29,
-    memory: 71,
-    network: 48,
-  },
-  {
-    name: 'worker-prod-01',
-    provider: 'AWS',
-    status: 'Warning',
-    cpu: 76,
-    memory: 82,
-    network: 67,
-  },
-  {
-    name: 'worker-prod-02',
-    provider: 'AWS',
-    status: 'Stopped',
-    cpu: 0,
-    memory: 0,
-    network: 0,
-  },
-  {
-    name: 'gcp-api-prod',
-    provider: 'Google Cloud',
-    status: 'Healthy',
-    cpu: 41,
-    memory: 55,
-    network: 61,
-  },
-]
+import { useEffect, useMemo, useState } from 'react'
+import { getMonitoringData } from '../lib/api'
 
 function Monitoring({ onNavigate }) {
   const [provider, setProvider] = useState('All')
   const [timeRange, setTimeRange] = useState('24h')
 
+  const [metrics, setMetrics] = useState([])
+  const [summary, setSummary] = useState({
+    healthyResources: 0,
+    warnings: 0,
+    stopped: 0,
+    averageCpu: 0,
+    totalResources: 0,
+    runningResources: 0,
+    systemHealth: 0,
+  })
+
+  const [alerts, setAlerts] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+
+  useEffect(() => {
+    let mounted = true
+
+    const loadMonitoring = async () => {
+      try {
+        setError('')
+
+        const data = await getMonitoringData()
+
+        if (!mounted) return
+
+        if (data.success && data.monitoring) {
+          setMetrics(
+            Array.isArray(data.monitoring.metrics)
+              ? data.monitoring.metrics
+              : []
+          )
+
+          setSummary(
+            data.monitoring.summary || {
+              healthyResources: 0,
+              warnings: 0,
+              stopped: 0,
+              averageCpu: 0,
+              totalResources: 0,
+              runningResources: 0,
+              systemHealth: 0,
+            }
+          )
+
+          setAlerts(
+            Array.isArray(data.monitoring.alerts)
+              ? data.monitoring.alerts
+              : []
+          )
+        } else {
+          setMetrics([])
+          setAlerts([])
+          setError('Failed to load monitoring data')
+        }
+      } catch (err) {
+        console.error('Failed to load monitoring data:', err)
+
+        if (!mounted) return
+
+        setMetrics([])
+        setAlerts([])
+        setError('Unable to connect to monitoring API')
+      } finally {
+        if (mounted) {
+          setLoading(false)
+        }
+      }
+    }
+
+    loadMonitoring()
+
+    return () => {
+      mounted = false
+    }
+  }, [])
+
   const filteredMetrics = useMemo(() => {
-    if (provider === 'All') return metrics
+    if (provider === 'All') {
+      return metrics
+    }
 
     return metrics.filter(
       (metric) => metric.provider === provider
     )
-  }, [provider])
-
-  const healthyCount = metrics.filter(
-    (metric) => metric.status === 'Healthy'
-  ).length
-
-  const warningCount = metrics.filter(
-    (metric) => metric.status === 'Warning'
-  ).length
-
-  const stoppedCount = metrics.filter(
-    (metric) => metric.status === 'Stopped'
-  ).length
-
-  const averageCpu = Math.round(
-    metrics.reduce((sum, metric) => sum + metric.cpu, 0) /
-      metrics.length
-  )
+  }, [metrics, provider])
 
   return (
     <div className="min-h-screen bg-slate-950 text-white">
@@ -143,6 +155,12 @@ function Monitoring({ onNavigate }) {
               Monitor the health and performance of your cloud infrastructure.
             </p>
 
+            {error && (
+              <div className="mt-4 rounded-lg border border-red-500/20 bg-red-500/5 px-4 py-3 text-xs text-red-400">
+                {error}
+              </div>
+            )}
+
           </div>
 
           {/* Summary */}
@@ -150,27 +168,43 @@ function Monitoring({ onNavigate }) {
 
             <MetricCard
               label="Healthy Resources"
-              value={healthyCount}
+              value={
+                loading
+                  ? '...'
+                  : summary.healthyResources
+              }
               icon="✓"
               success
             />
 
             <MetricCard
               label="Warnings"
-              value={warningCount}
+              value={
+                loading
+                  ? '...'
+                  : summary.warnings
+              }
               icon="!"
               warning
             />
 
             <MetricCard
               label="Stopped"
-              value={stoppedCount}
+              value={
+                loading
+                  ? '...'
+                  : summary.stopped
+              }
               icon="Ⅱ"
             />
 
             <MetricCard
               label="Average CPU"
-              value={`${averageCpu}%`}
+              value={
+                loading
+                  ? '...'
+                  : `${summary.averageCpu}%`
+              }
               icon="◉"
             />
 
@@ -199,22 +233,36 @@ function Monitoring({ onNavigate }) {
 
               </div>
 
-              {/* Demo chart */}
+              {/* Performance chart */}
               <div className="mt-6 h-56 rounded-xl border border-slate-800 bg-slate-950 p-5">
 
-                <div className="flex h-full items-end gap-2">
+                {loading ? (
+                  <div className="flex h-full items-center justify-center text-xs text-slate-600">
+                    Loading performance data...
+                  </div>
+                ) : metrics.length === 0 ? (
+                  <div className="flex h-full items-center justify-center text-xs text-slate-600">
+                    No monitoring data available
+                  </div>
+                ) : (
+                  <div className="flex h-full items-end gap-2">
 
-                  {[42, 55, 48, 64, 58, 72, 61, 67, 53, 76, 69, 81, 63, 70, 57, 74, 66, 79, 68, 73].map(
-                    (height, index) => (
+                    {metrics.map((metric) => (
                       <div
-                        key={index}
+                        key={metric.id || metric.name}
+                        title={`${metric.name}: ${metric.cpu}% CPU`}
                         className="flex-1 rounded-t bg-blue-600/70 transition hover:bg-blue-500"
-                        style={{ height: `${height}%` }}
+                        style={{
+                          height: `${Math.max(
+                            metric.cpu,
+                            5
+                          )}%`,
+                        }}
                       />
-                    )
-                  )}
+                    ))}
 
-                </div>
+                  </div>
+                )}
 
               </div>
 
@@ -242,11 +290,15 @@ function Monitoring({ onNavigate }) {
                   <div className="text-center">
 
                     <p className="text-3xl font-bold">
-                      100%
+                      {loading
+                        ? '...'
+                        : `${summary.systemHealth}%`}
                     </p>
 
                     <p className="mt-1 text-xs text-slate-500">
-                      Healthy
+                      {summary.systemHealth >= 80
+                        ? 'Healthy'
+                        : 'Needs attention'}
                     </p>
 
                   </div>
@@ -259,17 +311,25 @@ function Monitoring({ onNavigate }) {
 
                 <HealthRow
                   label="Services"
-                  value="4 / 4"
+                  value={
+                    loading
+                      ? '...'
+                      : `${summary.runningResources} / ${summary.totalResources}`
+                  }
                 />
 
                 <HealthRow
                   label="Resources"
-                  value="11 / 12"
+                  value={
+                    loading
+                      ? '...'
+                      : `${summary.healthyResources} / ${summary.totalResources}`
+                  }
                 />
 
                 <HealthRow
                   label="Monitoring"
-                  value="Active"
+                  value={loading ? '...' : 'Active'}
                 />
 
               </div>
@@ -348,48 +408,70 @@ function Monitoring({ onNavigate }) {
 
                 <tbody>
 
-                  {filteredMetrics.map((metric) => (
-
-                    <tr
-                      key={metric.name}
-                      className="border-b border-slate-800/70 transition hover:bg-slate-800/40"
-                    >
-
-                      <td className="px-5 py-4">
-
-                        <p className="text-sm font-semibold">
-                          {metric.name}
-                        </p>
-
+                  {loading ? (
+                    <tr>
+                      <td
+                        colSpan="6"
+                        className="px-5 py-10 text-center text-xs text-slate-600"
+                      >
+                        Loading monitoring resources...
                       </td>
-
-                      <td className="px-5 py-4">
-
-                        <span className="rounded-lg bg-slate-800 px-2.5 py-1 text-xs text-slate-300">
-                          {metric.provider}
-                        </span>
-
-                      </td>
-
-                      <td className="px-5 py-4">
-                        <MonitoringStatus status={metric.status} />
-                      </td>
-
-                      <td className="px-5 py-4">
-                        <Progress value={metric.cpu} />
-                      </td>
-
-                      <td className="px-5 py-4">
-                        <Progress value={metric.memory} />
-                      </td>
-
-                      <td className="px-5 py-4">
-                        <Progress value={metric.network} />
-                      </td>
-
                     </tr>
+                  ) : filteredMetrics.length === 0 ? (
+                    <tr>
+                      <td
+                        colSpan="6"
+                        className="px-5 py-10 text-center text-xs text-slate-600"
+                      >
+                        No resources found.
+                      </td>
+                    </tr>
+                  ) : (
+                    filteredMetrics.map((metric) => (
 
-                  ))}
+                      <tr
+                        key={metric.id || metric.name}
+                        className="border-b border-slate-800/70 transition hover:bg-slate-800/40"
+                      >
+
+                        <td className="px-5 py-4">
+
+                          <p className="text-sm font-semibold">
+                            {metric.name}
+                          </p>
+
+                        </td>
+
+                        <td className="px-5 py-4">
+
+                          <span className="rounded-lg bg-slate-800 px-2.5 py-1 text-xs text-slate-300">
+                            {metric.provider}
+                          </span>
+
+                        </td>
+
+                        <td className="px-5 py-4">
+                          <MonitoringStatus
+                            status={metric.status}
+                          />
+                        </td>
+
+                        <td className="px-5 py-4">
+                          <Progress value={metric.cpu} />
+                        </td>
+
+                        <td className="px-5 py-4">
+                          <Progress value={metric.memory} />
+                        </td>
+
+                        <td className="px-5 py-4">
+                          <Progress value={metric.network} />
+                        </td>
+
+                      </tr>
+
+                    ))
+                  )}
 
                 </tbody>
 
@@ -415,38 +497,51 @@ function Monitoring({ onNavigate }) {
               </div>
 
               <span className="rounded-full bg-amber-500/10 px-3 py-1 text-xs text-amber-400">
-                1 Warning
+                {alerts.length} Warning
               </span>
 
             </div>
 
-            <div className="mt-5 rounded-xl border border-amber-500/20 bg-amber-500/5 p-4">
-
-              <div className="flex items-start gap-3">
-
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-amber-500/10 text-amber-400">
-                  !
-                </div>
-
-                <div>
-
-                  <p className="text-sm font-semibold">
-                    High resource utilization
-                  </p>
-
-                  <p className="mt-1 text-xs leading-5 text-slate-500">
-                    worker-prod-01 is currently using 76% CPU and 82% memory.
-                  </p>
-
-                  <p className="mt-2 text-[11px] text-slate-600">
-                    Detected 4 minutes ago
-                  </p>
-
-                </div>
-
+            {alerts.length === 0 ? (
+              <div className="mt-5 rounded-xl border border-slate-800 bg-slate-950 p-4 text-xs text-slate-600">
+                No recent alerts.
               </div>
+            ) : (
+              alerts.map((alert) => (
 
-            </div>
+                <div
+                  key={alert.id}
+                  className="mt-5 rounded-xl border border-amber-500/20 bg-amber-500/5 p-4"
+                >
+
+                  <div className="flex items-start gap-3">
+
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-amber-500/10 text-amber-400">
+                      !
+                    </div>
+
+                    <div>
+
+                      <p className="text-sm font-semibold">
+                        {alert.title}
+                      </p>
+
+                      <p className="mt-1 text-xs leading-5 text-slate-500">
+                        {alert.message}
+                      </p>
+
+                      <p className="mt-2 text-[11px] text-slate-600">
+                        Detected {alert.detected}
+                      </p>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              ))
+            )}
 
           </div>
 

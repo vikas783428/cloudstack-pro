@@ -9,17 +9,27 @@ import AIDevOps from './pages/AIDevOps'
 
 function App() {
   const [page, setPage] = useState('overview')
+  const [openConnectModal, setOpenConnectModal] = useState(false)
+
+  const navigateToCloudConnect = () => {
+    setPage('overview')
+    setOpenConnectModal(true)
+  }
 
   return (
     <>
       {page === 'overview' && (
-        <Dashboard onNavigate={setPage} />
+        <Dashboard
+          onNavigate={setPage}
+          openConnectModal={openConnectModal}
+          setOpenConnectModal={setOpenConnectModal}
+        />
       )}
 
       {page === 'cloud-resources' && (
         <CloudResources
           onNavigate={setPage}
-          onConnectCloud={() => setPage('overview')}
+          onConnectCloud={navigateToCloudConnect}
         />
       )}
 
@@ -28,25 +38,29 @@ function App() {
           onNavigate={setPage}
         />
       )}
+
       {page === 'billing' && (
         <Billing
-         onNavigate={setPage}
-       />
+          onNavigate={setPage}
+        />
       )}
+
       {page === 'team' && (
-      <Team
-      onNavigate={setPage}
-      />
+        <Team
+          onNavigate={setPage}
+        />
       )}
+
       {page === 'api-keys' && (
-      <ApiKeys
-      onNavigate={setPage}
-      />
+        <ApiKeys
+          onNavigate={setPage}
+        />
       )}
+
       {page === 'ai-devops' && (
-      <AIDevOps
-      onNavigate={setPage}
-      />
+        <AIDevOps
+          onNavigate={setPage}
+        />
       )}
     </>
   )

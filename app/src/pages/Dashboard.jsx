@@ -6,15 +6,18 @@ import {
   getCloudResources,
 } from '../lib/api'
 
-function Dashboard({ onNavigate }) {
-  const [showConnectModal, setShowConnectModal] = useState(false)
+function Dashboard({
+  onNavigate,
+  openConnectModal,
+  setOpenConnectModal,
+}) {
+
   const [selectedProvider, setSelectedProvider] = useState(null)
   const [connectedProvider, setConnectedProvider] = useState(null)
   const [backendStatus, setBackendStatus] = useState('Checking...')
-  const [cloudResources, setCloudResources] = useState([])
+
   const [resources, setResources] = useState([])
   const [resourcesLoading, setResourcesLoading] = useState(true)
-
   // Check backend + load cloud connection + load resources
   useEffect(() => {
     checkBackendHealth()
@@ -67,7 +70,7 @@ function Dashboard({ onNavigate }) {
 
       if (data.success && data.connection) {
         setConnectedProvider(data.connection.provider)
-        setShowConnectModal(false)
+        setOpenConnectModal(false)
         setSelectedProvider(null)
       }
     } catch (error) {
@@ -76,10 +79,10 @@ function Dashboard({ onNavigate }) {
     }
   }
 
-  const closeModal = () => {
-    setShowConnectModal(false)
-    setSelectedProvider(null)
-  }
+ const closeModal = () => {
+  setOpenConnectModal(false)
+  setSelectedProvider(null)
+}
 
   const providerConnected = Boolean(connectedProvider)
 
@@ -198,7 +201,7 @@ function Dashboard({ onNavigate }) {
             <div className="flex items-center gap-3">
 
               <button
-                onClick={() => setShowConnectModal(true)}
+                onClick={() => setOpenConnectModal(true)}
                 className="hidden rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold transition hover:bg-blue-500 sm:block"
               >
                 + Connect Cloud
@@ -453,7 +456,7 @@ function Dashboard({ onNavigate }) {
       </div>
 
       {/* Connect Cloud Modal */}
-      {showConnectModal && (
+      {openConnectModal && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
           onMouseDown={(event) => {
